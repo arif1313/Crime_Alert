@@ -1,0 +1,57 @@
+/* Position arrows on the right side */
+.navigation-arrows {
+    position: absolute;
+    right: 10px; /* Move arrows to the right */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column; /* Stack arrows vertically */
+    align-items: center;
+    z-index: 10;
+}
+
+/* Style arrow buttons */
+.arrow {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    margin: 10px 0;
+    fill: #333;
+    transition: fill 0.2s;
+}
+
+.arrow:hover {
+    fill: #000;
+}
+
+.arrow--disabled {
+    fill: #ccc;
+    cursor: not-allowed;
+}
+
+/* Position numbers on the left side */
+.slide-numbers {
+    position: absolute;
+    left: 10px; /* Move numbers to the left */
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column; /* Stack numbers vertically */
+    align-items: center;
+    z-index: 10;
+}
+
+/* Style numbers */
+.slide-number {
+    font-size:20px;
+    font-weight: bold;
+    color: #777;
+    padding: 5px;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.slide-number.active {
+    color: #000; /* Highlight active number */
+    font-size: 18px;
+}

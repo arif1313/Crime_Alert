@@ -9,7 +9,15 @@ const Title = ({title}) => {
         AOS.init({ duration: 800 });
       }, []);
   return (
-    <div data-aos="fade-down" className="font-extrabold m-12 text-3xl ">{title} <span className="text-6xl text-red-600">?</span></div>
+    <div className="">
+ <h1  className="font-extrabold mx-12 text-5xl ">{title} <span className="text-6xl text-red-600">?</span></h1>
+   <p data-aos="fade-down" className=" text-xl my-10">Empowering communities with real-time crime alerts,
+anonymous reporting, and actionable safety insights.
+Stay informed, stay connected, and take control
+of your safety with tools designed to protect
+you and your neighborhood.</p>
+    </div>
+   
   )
 }
 

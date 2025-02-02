@@ -3,7 +3,7 @@ import "aos/dist/aos.css";
 import { useEffect } from "react";
 
 // eslint-disable-next-line react/prop-types
-const FeatureCard = ({ title, description, index }) => {
+const FeatureCard = ({ title, description, index, Icon }) => {
   useEffect(() => {
     AOS.init({ duration: 500 });
   }, []);
@@ -18,9 +18,16 @@ const FeatureCard = ({ title, description, index }) => {
       data-aos-easing="ease-in-sine"
       className="card bg-[#000000] shadow-xl hover:scale-105 transition duration-1000"
     >
-      <div className="card-body text-white">
+      <div className="card-body text-white  ">
+     <div className="flex gap-10">
+     <div>
+       {Icon?<Icon className="text-5xl text-red-600"></Icon>:"no icon"}
+       </div>
+        <div>
         <h2 className="card-title">{title}</h2>
         <p>{description}</p>
+        </div>
+     </div>
       </div>
     </div>
   );
