@@ -16,7 +16,7 @@ const FeatureCard = ({ title, description, index, Icon }) => {
       data-aos={aosEffect}
       data-aos-offset="200"
       data-aos-easing="ease-in-sine"
-      className="card bg-[#000000] shadow-xl hover:scale-105 transition duration-1000"
+      className="card bg-[#000000] shadow-xl hover:scale-105 transition duration-1000 container"
     >
       <div className="card-body text-white  ">
      <div className="flex gap-10">

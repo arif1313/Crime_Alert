@@ -32,7 +32,7 @@ const Feature = () => {
   return (
     <div className="my-12 container mx-auto">
       <Title title={"Why Choose Our Crime Alert App"} />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="grid grid-cols-2 gap-12">
         {FeatureDocument.map((feature, inx) => (
           <FeatureCard key={inx} index={inx} title={feature.Title} description={feature.description} Icon={feature.icon} />
         ))}

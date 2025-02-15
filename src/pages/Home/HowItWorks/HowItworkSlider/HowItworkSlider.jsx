@@ -1,58 +1,15 @@
-import { useKeenSlider } from "keen-slider/react";
-import "keen-slider/keen-slider.min.css";
-import "./styles.css";
+
+
+
 import signUpImg from "../../../../assets/home/icons/signUp.webp";
 import location from "../../../../assets/home/icons/location.jpg";
 import alert from "../../../../assets/home/icons/alert.jpg";
 import incident from "../../../../assets/home/icons/incident.png";
 import { useState } from "react";
+import HowWorkCard, { WheelControls } from "../HowWorkCard/HowWorkCard";
+import { useKeenSlider } from "keen-slider/react";
 
-const WheelControls = (slider) => {
-  let touchTimeout;
-  let position = { x: 0, y: 0 };
-  let wheelActive = false;
 
-  function dispatch(e, name) {
-    position.x -= e.deltaX;
-    position.y -= e.deltaY;
-    slider.container.dispatchEvent(
-      new CustomEvent(name, {
-        detail: { x: position.x, y: position.y },
-      })
-    );
-  }
-
-  function wheelStart(e) {
-    position = { x: e.pageX, y: e.pageY };
-    dispatch(e, "ksDragStart");
-  }
-
-  function wheel(e) {
-    dispatch(e, "ksDrag");
-  }
-
-  function wheelEnd(e) {
-    dispatch(e, "ksDragEnd");
-  }
-
-  function eventWheel(e) {
-    e.preventDefault();
-    if (!wheelActive) {
-      wheelStart(e);
-      wheelActive = true;
-    }
-    wheel(e);
-    clearTimeout(touchTimeout);
-    touchTimeout = setTimeout(() => {
-      wheelActive = false;
-      wheelEnd(e);
-    }, 50);
-  }
-
-  slider.on("created", () => {
-    slider.container.addEventListener("wheel", eventWheel, { passive: false });
-  });
-};
 
 const HowItworkSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -72,7 +29,28 @@ const HowItworkSlider = () => {
     },
     [WheelControls]
   );
-
+const howWorkINformation=[
+  {
+    Title: "Create Account",
+    Description: "Sign up with your email or phone number to get started. It’s quick and free!",
+    Image: signUpImg,
+  },
+  {
+    Title: "Set Your Location",
+    Description: "Allow location access to receive alerts for your area.",
+    Image: location,
+  },
+  {
+    Title: "Receive Alerts on Your Phone",
+    Description: "Get real-time crime alerts based on your location.",
+    Image: alert,
+  },
+  {
+    Title: "Report an Incident",
+    Description: "Help keep your community safe by reporting suspicious activity.",
+    Image: incident,
+  },
+]
   return (
     <div className="slider-container" style={{ position: "relative" }}>
       {/* Numbers on the Left Side */}
@@ -94,17 +72,10 @@ const HowItworkSlider = () => {
 
       {/* Main Slider */}
       <div ref={sliderRef} className="keen-slider" style={{ height: 300 }}>
-        <div className="keen-slider__slide number-slide2 flex flex-row-reverse justify-center items-center gap-10">
-          <div>
-            <img src={signUpImg} className="max-w-sm rounded-lg" alt="Sign Up" />
-          </div>
-          <div>
-            <h1 className="font-bold">Create Your Account</h1>
-            <p className="py-6">
-              Sign up with your email or phone number to get started. It’s quick and free!
-            </p>
-          </div>
-        </div>
+      {
+        howWorkINformation.map((information,inx)=><HowWorkCard key={inx} Title={information.Title} Description={information.Description} Image={information.Image}></HowWorkCard>)
+      }
+{/*       
         <div className={`keen-slider__slide number-slide3 flex   justify-center items-center gap-10`}> 
             <div>
             <img src={signUpImg} className="max-w-sm rounded-lg" alt="Sign Up" />
@@ -142,7 +113,7 @@ const HowItworkSlider = () => {
             <p className="py-6">
               Sign up with your email or phone number to get started. It’s quick and free!
             </p>
-          </div></div>
+          </div></div> */}
       </div>
 
       {/* Navigation Arrows on the Right Side */}
