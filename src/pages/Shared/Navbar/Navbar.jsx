@@ -47,7 +47,7 @@ const Navbar = () => {
 
   return (
    
-      <div  className={`fixed top-0 w-full bg-black text-white p-4 transition-transform duration-300 navbar  ${
+      <div  className={`fixed top-0 w-full bg-black z-10 text-white p-4 transition-transform duration-300 navbar  ${
         isVisible ? "translate-y-0" : "-translate-y-full"
       }`}>
           <div className="navbar-start">

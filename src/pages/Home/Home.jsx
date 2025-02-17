@@ -1,7 +1,9 @@
 
 import Banar from "./Banar/Banar"
-import CrimeHeatmap from "./CrimeHeatmap/CrimeHeatMap"
+
+import CrimeHeatmapFeature from "./CrimeHeatmap/CrimeHeatmapFeature"
 import Feature from "./Feature/Feature"
+import Feedback from "./Feedback/Feedback"
 import HowItWorks from "./HowItWorks/HowItWorks"
 // import Banar2 from "./Banar/Banar2"
 
@@ -12,8 +14,9 @@ const Home = () => {
       <Banar></Banar>
       <Feature></Feature>
       <HowItWorks></HowItWorks>
-      <CrimeHeatmap></CrimeHeatmap>
-      
+
+      <CrimeHeatmapFeature></CrimeHeatmapFeature>
+      <Feedback></Feedback>
     </div>
   )
 }

@@ -1,35 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { GoogleMap, LoadScript, HeatmapLayer, Marker } from "@react-google-maps/api";
 
-// Map settings
-const mapContainerStyle = {
-  width: "100%",
-  height: "500px",
-};
 
-// Center the map on Dhaka, Bangladesh
-const center = {
-  lat: 23.8103, // Latitude of Dhaka
-  lng: 90.4125, // Longitude of Dhaka
-};
-
-// Define the bounds for Dhaka
-const dhakaBounds = {
-  north: 23.99, // Northernmost latitude of Dhaka
-  south: 23.60, // Southernmost latitude of Dhaka
-  west: 90.20, // Westernmost longitude of Dhaka
-  east: 90.55, // Easternmost longitude of Dhaka
-};
+const mapContainerStyle = { width: "100%", height: "500px" };
+const center = { lat: 23.8103, lng: 90.4125 };
+const dhakaBounds = { north: 23.99, south: 23.60, west: 90.20, east: 90.55 };
 
 const CrimeHeatmap = () => {
   const [crimeData, setCrimeData] = useState([]);
+  const [error, setError] = useState(null);
   const [filters, setFilters] = useState({
     crimeType: "all",
     timeRange: "lastWeek",
     severity: "medium",
   });
 
-  // Fetch crime data from your API
   useEffect(() => {
     const fetchCrimeData = async () => {
       try {
@@ -38,31 +23,32 @@ const CrimeHeatmap = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(filters),
         });
+        if (!response.ok) throw new Error("Failed to fetch crime data");
         const data = await response.json();
         setCrimeData(data);
-      } catch (error) {
-        console.error("Error fetching crime data:", error);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error fetching crime data:", err);
       }
     };
 
     fetchCrimeData();
   }, [filters]);
 
-  // Convert crime data to heatmap format
-  const heatmapData = crimeData.map((crime) => ({
-    location: new window.google.maps.LatLng(crime.lat, crime.lng),
-    weight: crime.severity === "high" ? 2 : 1, // Adjust weight based on severity
-  }));
+  const heatmapData = useMemo(
+    () => crimeData.map((crime) => new window.google.maps.LatLng(crime.lat, crime.lng)),
+    [crimeData]
+  );
 
-  // Handle filter changes
   const handleFilterChange = (filterType, value) => {
-    setFilters({ ...filters, [filterType]: value });
+    setFilters((prev) => ({ ...prev, [filterType]: value }));
   };
 
   return (
     <div>
       <h2>Crime Heatmap - Dhaka</h2>
-      <div>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
         <label>Crime Type:</label>
         <select onChange={(e) => handleFilterChange("crimeType", e.target.value)}>
           <option value="all">All</option>
@@ -86,22 +72,16 @@ const CrimeHeatmap = () => {
         </select>
       </div>
 
-      {/* Add libraries={["visualization"]} to LoadScript */}
-      <LoadScript
-        googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY"
-        libraries={["visualization"]} // Add this line
-      >
+      <LoadScript googleMapsApiKey="AIzaSyAFA9f9k3pUDG6B1LkD1wtPLFNfS1lt4ec" libraries={["visualization"]}>
         <GoogleMap
+        
           mapContainerStyle={mapContainerStyle}
-          zoom={11} // Adjust zoom level to focus on Dhaka
+          zoom={11}
           center={center}
           options={{
-            restriction: {
-              latLngBounds: dhakaBounds,
-              strictBounds: true, // Prevent panning outside Dhaka
-            },
-            minZoom: 10, // Minimum zoom level to keep Dhaka in view
-            maxZoom: 14, // Maximum zoom level for detail
+            restriction: { latLngBounds: dhakaBounds, strictBounds: true },
+            minZoom: 10,
+            maxZoom: 14,
           }}
         >
           <HeatmapLayer data={heatmapData} />

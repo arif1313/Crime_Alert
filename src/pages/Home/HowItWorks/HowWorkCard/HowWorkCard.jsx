@@ -55,7 +55,7 @@ const HowWorkCard = ({Description, Title,Image}) => {
     <div className="keen-slider__slide number-slide2 flex flex-row-reverse justify-center items-center gap-10 ">
         
               <div>
-              <img src={Image} className="max-w-sm rounded-lg" alt="Sign Up" />
+              <img src={Image} className="max-w-sm rounded-lg -z-10" alt="Sign Up" />
             </div>
             <div className="flex items-center justify-center ">
             <div className="w-96">
