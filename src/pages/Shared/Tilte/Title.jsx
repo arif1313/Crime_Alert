@@ -10,7 +10,7 @@ const Title = ({title}) => {
       }, []);
   return (
     <div className="">
- <h1  className="font-extrabold mx-12 text-5xl ">{title} <span className="text-6xl text-red-600">?</span></h1>
+ <h1  className="font-extrabold mx-12 text-5xl  text-[#ea3f59] ">{title} </h1>
    <p data-aos="fade-down" className=" text-xl my-10">Empowering communities with real-time crime alerts,
 anonymous reporting, and actionable safety insights.
 Stay informed, stay connected, and take control
