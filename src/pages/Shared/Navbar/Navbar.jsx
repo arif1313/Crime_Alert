@@ -9,24 +9,28 @@ const Navbar = ({ section }) => {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (section !== "main") {
+        setIsVisible(true); // Keep the navbar always visible
+        return; // Exit early
+      }
+  
       const scrollY = window.scrollY;
       const scrollingDown = scrollY > lastScrollY.current;
-
-      if (scrollingDown && section !== "main") {
+      const scrollingUp = scrollY < lastScrollY.current;
+  
+      if (scrollingDown) {
         setIsVisible(false);
-      } else {
+      } else if (scrollingUp) {
         setIsVisible(true);
       }
-
+  
       lastScrollY.current = scrollY;
     };
-
+  
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [section]); // ✅ Now updates when `section` changes
-
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [section]);
+  
   const login = true;
   const navLinks = (
     <>

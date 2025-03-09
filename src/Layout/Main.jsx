@@ -9,7 +9,7 @@ import Navbar from "../pages/Shared/Navbar/Navbar"
 const Main = () => {
   return (
     <div className=" ">
-       <Navbar></Navbar>
+       <Navbar section={'main'}></Navbar>
         <Outlet></Outlet>
         <Footer></Footer>
     </div>
