@@ -1,13 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "./Layout/Main";
 import Home from "./pages/Home/Home";
-import Report from "./pages/Report/Report";
+
 import ConnecPeople from "./pages/ConnectPeople/ConnecPeople";
 import SignUp from "./pages/SignUp/SignUp";
 import Form from "./pages/SignUp/Form";
 import PasswordCreate from "./pages/SignUp/PasswordCreate";
 import Reports from "./pages/Reports/Reports";
 import MainReport from "./pages/Reports/MainReport";
+import ReportPost from "./pages/Report/ReportPost";
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +22,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "report", // Remove the leading "/"
-        element: <Report />,
+        element: <ReportPost />,
         
       },
       {

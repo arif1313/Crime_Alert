@@ -3,7 +3,11 @@ import Title from "../../Shared/Tilte/Title";
 const PlayStore = () => {
     return (
       <div className="my-12 container mx-auto" >
-        <Title title={"Download Crime Alert Andrord App"}></Title>
+        <Title title={"Download Crime Alert Andrord App"} description={`Empowering communities with real-time crime alerts 
+anonymous reporting and actionable safety insights.
+Stay informed stay connected and take control
+of your safety with tools designed to protect
+you and your neighborhood`}></Title>
        <div className="flex justify-center py-12">
        <a 
           href="https://play.google.com/store/apps/details?id=com.yourapp.package" 

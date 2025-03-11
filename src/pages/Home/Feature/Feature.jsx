@@ -31,7 +31,11 @@ const Feature = () => {
 
   return (
     <div className="my-12 container mx-auto">
-      <Title title={"Why Choose Our Crime Alert App"} />
+      <Title title={"Why Choose Our Crime Alert App"} description={`Empowering communities with real-time crime alerts 
+anonymous reporting and actionable safety insights.
+Stay informed stay connected and take control
+of your safety with tools designed to protect
+you and your neighborhood`} />
       <div className="grid grid-cols-2 gap-12">
         {FeatureDocument.map((feature, inx) => (
           <FeatureCard key={inx} index={inx} title={feature.Title} description={feature.description} Icon={feature.icon} />

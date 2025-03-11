@@ -78,7 +78,11 @@ const SafetyTIps = () => {
   return (
 
         <div className="my-12 container mx-auto">
-    <Title title={"Crime Prevention Tips"}  />
+    <Title title={"Crime Prevention Tips"} description={`Empowering communities with real-time crime alerts 
+anonymous reporting and actionable safety insights.
+Stay informed stay connected and take control
+of your safety with tools designed to protect
+you and your neighborhood`} />
     {/* <p>Although there are no guaranteed ways of preventing crime completely, the following are 11 simple things that students, staff, and faculty can do on the Old Westbury campus that may deter property and violent crime.</p> */}
 
     <div className="grid md:grid-cols-2 gap-6">
