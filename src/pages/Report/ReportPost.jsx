@@ -1,159 +1,142 @@
+
+// import { Link } from "react-router-dom";
+import ReportCreate from "./ReportCreate";
 import { useState } from "react";
 
 const ReportPost = () => {
-    const [title, setTitle] = useState("");
-    const [text, setText] = useState("");
-    const [images, setImages] = useState([]);
 
-    const [isTitleEditing, setIsTitleEditing] = useState(false);
-    const [isTextEditing, setIsTextEditing] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    address: "",
+    dob: "",
+    profile: null,
+    email: "",
+    contact: "",
+  });
 
-    const handleImageUpload = (event) => {
-        const files = Array.from(event.target.files);
-        const newImages = files.map((file) => URL.createObjectURL(file));
-        setImages([...images, ...newImages]); // Append new images
-    };
+  const handleChange = (e) => {
+    const { name, value, type, files } = e.target;
+    setFormData({
+      ...formData,
+      [name]: type === "file" ? files[0] : value,
+    });
+  };
 
-    return (
-        <div className="max-w-2xl mx-auto space-y-6 mt-20 min-h-screen py-10">
-            <div className="flex flex-col lg:flex-row bg-base-200 p-5 rounded-md shadow-md">
+  // Function to clear form data
+  // const handleClear = () => {
+  //   setFormData({
+  //     name: "",
+  //     age: "",
+  //     address: "",
+  //     dob: "",
+  //     profile: null,
+  //     email: "",
+  //     contact: "",
+  //   });
 
-                {/* Image Section */}
-                <div className="relative w-full lg:w-72 h-72 bg-gray-300 rounded-md shadow-2xl flex overflow-hidden">
-                    {images.length > 0 ? (
-                        <div className="w-full h-full">
-                            {images.length === 1 && (
-                                <img
-                                    src={images[0]}
-                                    className="w-full h-full object-cover rounded-md"
-                                    alt="Uploaded"
-                                />
-                            )}
+  //   // Clear file input manually
+  //   document.getElementById("profile-input").value = "";
+  // };
 
-                            {images.length === 2 && (
-                                <div className="flex flex-col w-full h-full gap-1">
-                                    {images.slice(0, 2).map((img, index) => (
-                                        <img
-                                            key={index}
-                                            src={img}
-                                            className="w-full h-1/2 object-cover object-top rounded-md"
-                                            alt="Uploaded"
-                                        />
-                                    ))}
-                                </div>
-                            )}
 
-                            {images.length === 3 && (
-                                <div className="w-full h-full grid grid-rows-2 gap-1">
-                                   <div className="">
-                                   <img
-                                        src={images[0]}
-                                        className=" object-cover h-full w-full object-top" // Fixed: No cropping for the top image
-                                        alt="Uploaded"
-                                    />
-                                   </div>
-                                    <div className="grid grid-cols-2 gap-1 h-1/2">
-                                        {images.slice(1, 3).map((img, index) => (
-                                            <img
-                                                key={index}
-                                                src={img}
-                                                className="w-full h-full object-cover rounded-md"
-                                                alt="Uploaded"
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+  // Function to clear form data
 
-                            {images.length === 4 && (
-                                <div className="grid grid-cols-2 grid-rows-2 gap-1 w-full h-full">
-                                    {images.slice(0, 4).map((img, index) => (
-                                        <img
-                                            key={index}
-                                            src={img}
-                                            className="w-full h-full object-cover object-top rounded-md"
-                                            alt="Uploaded"
-                                        />
-                                    ))}
-                                </div>
-                            )}
+  return (
+    <div className="flex  bg-gray-50">
+      {/* Sidebar with form elements */}
+      <div className="w-1/2 my-24 px-6 grid grid-cols-2 gap-y-3 gap-x-0">
+     
+  <>
+    <label className="fieldset-label">Crime Type</label>
+    <select
+      defaultValue="Select a Crime Type"
+      className="select select-error"
+      required
+      name="crimeType"
+      value={formData.crimeType}
+      onChange={handleChange}
+    >
+      <option disabled>Select a Crime Type</option>
+      <option>Assault</option>
+      <option>Burglary</option>
+      <option>Fraud</option>
+      <option>Theft</option>
+    </select>
 
-                            {images.length > 4 && (
-                                <div className="grid grid-cols-2 grid-rows-2 gap-1 w-full h-full">
-                                    {images.slice(0, 3).map((img, index) => (
-                                        <img
-                                            key={index}
-                                            src={img}
-                                            className="w-full h-full object-cover object-top rounded-md"
-                                            alt="Uploaded"
-                                        />
-                                    ))}
-                                    <div className="relative">
-                                        <img
-                                            src={images[3]}
-                                            className="w-full h-full object-cover object-top rounded-md "
-                                            alt="Uploaded"
-                                        />
-                                        <div className="absolute inset-0 
-                                         bg-opacity-50 flex items-center justify-center text-white text-2xl font-bold rounded-md">
-                                            +{images.length - 4}
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    ) : (
-                        <label className="cursor-pointer flex flex-col items-center w-full h-full justify-center">
-                            <span className="bg-gray-800 text-white px-4 py-2 rounded">Upload Image(s)</span>
-                            <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
-                        </label>
-                    )}
-                </div>
+    <label className="fieldset-label">Crime Location</label>
+    <select
+      defaultValue="Select a Location"
+      className="select select-error"
+      required
+      name="crimeLocation"
+      value={formData.crimeLocation}
+      onChange={handleChange}
+    >
+      <option disabled>Select a Crime Location</option>
+      <option>Downtown</option>
+      <option>Suburbs</option>
+      <option>Rural Area</option>
+      <option>Other</option>
+    </select>
 
-                {/* Content Section */}
-                <div className="p-5 w-full">
-                    {/* Editable Title */}
-                    {isTitleEditing ? (
-                        <input
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            onBlur={() => setIsTitleEditing(false)}
-                            className="input input-bordered w-full text-xl font-bold"
-                            placeholder="Crime Headline"
-                            autoFocus
-                        />
-                    ) : (
-                        <h1
-                            className={`text-2xl font-bold cursor-pointer ${title ? "" : "text-gray-400"}`}
-                            onClick={() => setIsTitleEditing(true)}
-                        >
-                            {title || "Crime Headline"}
-                        </h1>
-                    )}
+    <label className="fieldset-label">Date of Crime</label>
+    <input
+      type="date"
+      name="crimeDate"
+      className="input"
+      value={formData.crimeDate}
+      onChange={handleChange}
+    />
 
-                    {/* Editable Description */}
-                    {isTextEditing ? (
-                        <textarea
-                            value={text}
-                            onChange={(e) => setText(e.target.value)}
-                            onBlur={() => setIsTextEditing(false)}
-                            className="textarea textarea-bordered w-full mt-2"
-                            placeholder="Crime Description"
-                            autoFocus
-                        />
-                    ) : (
-                        <p
-                            className={`py-6 cursor-pointer ${text ? "" : "text-gray-400"}`}
-                            onClick={() => setIsTextEditing(true)}
-                        >
-                            {text || "Crime Description"}
-                        </p>
-                    )}
-                </div>
-            </div>
-        </div>
-    );
+    <label className="fieldset-label">Emergency Contact</label>
+    <input
+      required
+      type="text"
+      name="emergencyContact"
+      placeholder="Type here"
+      className="input"
+      value={formData.emergencyContact}
+      onChange={handleChange}
+    />
+
+    <label className="fieldset-label">Crime Time</label>
+    <input
+      required
+      type="time"
+      name="crimeTime"
+      className="input"
+      value={formData.crimeTime}
+      onChange={handleChange}
+    />
+
+    <fieldset className="p-4 bg-base-100 border border-base-300 rounded-lg">
+      <legend className="font-semibold text-gray-700">Security Option</legend>
+      <label className="flex items-center space-x-2">
+        <input type="checkbox" defaultChecked className="checkbox checkbox-primary" />
+        <span className="text-gray-700">Hide me (Private Report)</span>
+      </label>
+    </fieldset>
+
+    {/* Optional buttons for navigation */}
+    {/* <Link to="/next-page" state={{ formData }} className="btn my-10 bg-red-500 text-white">
+      Continue
+    </Link>
+
+    <button className="btn my-10 btn-primary text-white" onClick={handleClear}>
+      Clear
+    </button> */}
+  </>
+</div>
+
+
+
+      {/* Report Create Section (Main content) */}
+      <div className="w-1/2 px-8 py-6 bg-white shadow-md rounded-md">
+        <ReportCreate />
+      </div>
+    </div>
+  );
 };
 
 export default ReportPost;
