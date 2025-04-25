@@ -43,9 +43,12 @@ const Navbar = ({ section }) => {
       <NavLink to="/safety-tips" className="text-white hover:text-red-500 mx-2">
         Safety Tips
       </NavLink>
-      <NavLink to="/alert" className="text-white hover:text-red-500 mx-2">
-        Alert
-      </NavLink>
+
+
+      <NavLink to="/alert" className="text-white hover:text-red-500 mx-2 relative flex items-center">
+  <span>Alert</span>
+  <span className="absolute -top-4 left-5 badge badge-secondary text-xs">12</span>
+</NavLink>
       <NavLink to="/contact" className="text-white hover:text-red-500 mx-2">
         Contact Us
       </NavLink>
