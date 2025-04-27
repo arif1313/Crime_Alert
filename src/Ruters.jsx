@@ -10,6 +10,8 @@ import Reports from "./pages/Reports/Reports";
 import MainReport from "./pages/Reports/MainReport";
 import ReportPost from "./pages/Report/ReportPost";
 import Home2 from "./pages/Home/Home2";
+import Profile from "./pages/Profile/Profile";
+import SubProfile from "./pages/Profile/SubProfile";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +31,19 @@ export const router = createBrowserRouter([
       {
         path: "connnect", // Remove the leading "/"
         element: <ConnecPeople />,
+
+        
+      },
+      {
+        path: "profile", // Remove the leading "/"
+        element: <Profile />,
+        children:[
+          {
+            path:'',
+            element:<SubProfile></SubProfile>
+
+          }
+        ]
 
         
       },
