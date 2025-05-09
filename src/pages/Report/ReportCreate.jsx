@@ -15,7 +15,7 @@ const ReportCreate = () => {
     };
 
     return (
-        <div className="w-full max-w-3xl  mx-auto space-y-6 mt-20 min-h-screen py-10">
+        <div className="w-full max-w-3xl  mx-auto space-y-6 ">
             <div className="flex flex-col lg:flex-row bg-[#ffc8cb] p-5 rounded-md shadow-md w-full text-[#47080b] ">
                 {/* Image Section */}
                 <div className="relative w-full lg:w-72 h-72 bg-gray-300 rounded-md shadow-2xl flex overflow-hidden">

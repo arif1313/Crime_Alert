@@ -1,6 +1,5 @@
 
-import ReportChart from "./ReportChart";
-import ReportStat from "./ReportStat";
+
 import SingleReport from "./SingleReport";
 
 const Reports = () => {
@@ -11,8 +10,7 @@ const Reports = () => {
       {/* Left Section */}
       <div className="w-1/3 p-5 flex flex-col gap-5"> {/* Ensure column layout */}
         <h1 className="text-3xl font-bold text-red-500">Area Crime Report</h1>
-        <ReportStat /> 
-        <ReportChart />
+     
         {/* <ReportBarChart></ReportBarChart> */}
       </div>
 
@@ -24,9 +22,9 @@ const Reports = () => {
           <div className="flex justify-around">
             <input type="text" placeholder="Search area reports" className="input input-neutral" />
             <input type="text" placeholder="Category" className="input input-neutral" />
-          <button className="btn bg-[#be171f] border-[#821a1f] text-white hover:from-[#9d171e] hover:to-[#be171f]">
-  Search
-</button>
+            <button className="btn bg-[#be171f] border-[#821a1f] text-white hover:from-[#9d171e] hover:to-[#be171f]">
+              Search
+            </button>
 
           </div>
         </div>

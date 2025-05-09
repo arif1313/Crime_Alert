@@ -10,20 +10,20 @@ const ReportStat = () => {
     </div>
 
     <div className="stat">
-      <div className="stat-title">increase Crime</div>
-      <div className="stat-value">0</div>
-      <div className="stat-desc">↗︎  (0%) </div>
+      <div className="stat-title">total Report</div>
+      <div className="stat-value">50</div>
+      
     </div>
 
     <div className="stat">
-      <div className="stat-title">Total Reports</div>
-      <div className="stat-value">1,200</div>
-      <div className="stat-desc">↘︎ 90 (14%)</div>
+      <div className="stat-title">varified report</div>
+      <div className="stat-value">12</div>
+     
     </div>
     <div className="stat">
-      <div className="stat-title">Decrese Crime</div>
+      <div className="stat-title">connected people</div>
       <div className="stat-value">42</div>
-      <div className="stat-desc">↗︎  (22%) </div>
+      
     </div>
   </div>
   )

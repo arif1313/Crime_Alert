@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "./Layout/Main";
 
 
-import ConnecPeople from "./pages/ConnectPeople/ConnecPeople";
 import SignUp from "./pages/SignUp/SignUp";
 import Form from "./pages/SignUp/Form";
 import PasswordCreate from "./pages/SignUp/PasswordCreate";
@@ -12,6 +11,12 @@ import ReportPost from "./pages/Report/ReportPost";
 import Home2 from "./pages/Home/Home2";
 import Profile from "./pages/Profile/Profile";
 import SubProfile from "./pages/Profile/SubProfile";
+import ReportAnalysis from "./pages/Profile/ReportAnalysis";
+import ManageReport from "./pages/Profile/ManageReport/Managereport";
+import SafetyTIps from "./pages/Home/safetyTips/SafetyTIps";
+import Connection from "./pages/Connection/Connection";
+import Feed from "./pages/Home/Feed";
+
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +26,19 @@ export const router = createBrowserRouter([
       {
         path: "", // or simply omit this for Home
         element: <Home2/>,
+        children:[
+          {
+            path: "",
+            element:<Feed></Feed>
+          },
+          {
+            path:"connect",
+            element:<Connection></Connection>
+          },
+
+
+        ]
+
       
       },
       {
@@ -29,11 +47,19 @@ export const router = createBrowserRouter([
         
       },
       {
-        path: "connnect", // Remove the leading "/"
-        element: <ConnecPeople />,
+        path: "connect", // Remove the leading "/"
+        element: <Connection />,
 
         
       },
+      {
+        path: "safety-tips", // Remove the leading "/"
+        element: <SafetyTIps />,
+
+        
+      },
+      
+  
       {
         path: "profile", // Remove the leading "/"
         element: <Profile />,
@@ -42,7 +68,19 @@ export const router = createBrowserRouter([
             path:'',
             element:<SubProfile></SubProfile>
 
+          },
+          {
+            path:'analysis',
+            element:<ReportAnalysis></ReportAnalysis>
+
+          },
+          {
+            path: 'manage',
+            element: <ManageReport />
           }
+          
+          
+         
         ]
 
         
@@ -71,7 +109,8 @@ export const router = createBrowserRouter([
       {
         path:'',
         element:<Reports></Reports>
-      }
+      },
+      
     ]
 
     

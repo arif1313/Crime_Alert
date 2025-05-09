@@ -22,10 +22,10 @@ const Navbar2 = () => (
           Home
         </NavLink>
 
-        <NavLink to="/report" className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold">
+        {/* <NavLink to="/report" className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold">
           <BiSolidReport className="text-xl" />
           Report
-        </NavLink>
+        </NavLink> */}
 
         <NavLink to="/safety-tips" className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold">
           <BiDice1 className="text-xl" />
@@ -47,10 +47,10 @@ const Navbar2 = () => (
           Connection
         </NavLink>
 
-        <NavLink to="/reports" className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold">
+        {/* <NavLink to="/reports" className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold">
           <BiNews className="text-xl" />
           Reports
-        </NavLink>
+        </NavLink> */}
 
         {login ? (
           <NavLink to="/profile" className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold">

@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import Searchmap from "./CrimeHeatmap/Searchmap";
 
 const Sidebar = () => (
@@ -7,8 +8,20 @@ const Sidebar = () => (
   
       <div className=" shadow-md bg-[#fff0f0] text-red-800 p-6 rounded-xl">
         <div>
+
+            <div>
+              <div className="bg-gradient-to-b from-[lightPink]   shadow-md rounded-xl p-4  mb-4 ">
+        {/* <textarea
+          placeholder="Start a post..."
+          className="w-full border text-red-950 border-[#eb7e7e] rounded-md p-2 resize-none focus:outline-none focus:ring-2 focus:ring-[#cb3737]"
+        ></textarea> */}
+        <NavLink to='report'>  <button className="mt-2 w-full bg-[#cb3737] text-white py-2 px-4  rounded-lg hover:bg-[#cb3737] transition">Report</button> </NavLink>
+       
+      </div>
+          </div>
           <h3 className="font-semibold mb-2">Select Area </h3>
           {/* search option */}
+        
   
           <div>
             <Searchmap></Searchmap>
