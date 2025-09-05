@@ -2,7 +2,7 @@
 
 
 
-import Feed from "./Feed";
+
 import Sidebar from "./Sidebar";
 import RightPanel from "./RightPanel";
 import { Outlet } from "react-router-dom";

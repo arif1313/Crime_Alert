@@ -1,126 +1,269 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { IoEyeOutline } from "react-icons/io5";
+import axios from "axios";
 
-const Form = () => {
+const Register = () => {
   const [formData, setFormData] = useState({
-    name: "",
+    firstName: "",
+    lastName: "",
     age: "",
     address: "",
     dob: "",
     profile: null,
     email: "",
     contact: "",
+    password: "",
+    confirmPassword: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
+  const [modalType, setModalType] = useState(""); // "error" | "success"
+  const [loading, setLoading] = useState(false);
+
+  // input change handler
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: type === "file" ? files[0] : value,
-    });
+    }));
   };
 
-  // Function to clear form data
-  const handleClear = () => {
-    setFormData({
-      name: "",
-      age: "",
-      address: "",
-      dob: "",
-      profile: null,
-      email: "",
-      contact: "",
-    });
+  // Register API call
+  const handleRegister = async () => {
+    if (!formData.password || !formData.confirmPassword) {
+      setModalType("error");
+      setModalMessage("Please enter both password fields.");
+      return;
+    }
+    if (formData.password !== formData.confirmPassword) {
+      setModalType("error");
+      setModalMessage("Passwords do not match!");
+      return;
+    }
 
-    // Clear file input manually
-    document.getElementById("profile-input").value = "";
+    setLoading(true);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/v1/local-user/create",
+        {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          age: formData.age,
+          address: formData.address,
+          dateOfBirth: formData.dob,
+          email: formData.email,
+          contactNumber: formData.contact,
+
+          // ✅ profileImage must be a URI (string)
+          profileImage: formData.profile
+            ? URL.createObjectURL(formData.profile) // temporary blob URL
+            : "",
+
+          // ❌ password বাদ দিয়ে দিব backend এ পাঠানোর সময়
+        }
+      );
+
+      if (response.data.success) {
+        setModalType("success");
+        setModalMessage("Registration Successful!");
+      }
+    } catch (err) {
+      if (err.response?.data?.details) {
+        setModalType("error");
+        setModalMessage(err.response.data.details.join(", "));
+      } else {
+        setModalType("error");
+        setModalMessage(err.response?.data?.message || "Something went wrong");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
+
+
 
   return (
-    <>
-      <label className="fieldset-label">Name</label>
-      <input
-      required
-        type="text"
-        name="name"
-        placeholder="Type here"
-        className="input"
-        value={formData.name}
-        onChange={handleChange}
-      />
+    <div className="p-6 max-w-2xl mx-auto bg-white rounded-xl shadow-lg">
+      <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
 
-      <label className="fieldset-label">Age</label>
-      <input
-         required
-        type="number"
-        name="age"
-        placeholder="Type here"
-        className="input"
-        value={formData.age}
-        onChange={handleChange}
-      />
+      {/* Form Fields */}
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium">First Name</label>
+          <input
+            type="text"
+            name="firstName"
+            className="input input-bordered w-full"
+            value={formData.firstName}
+            onChange={handleChange}
+          />
+        </div>
 
-      <label className="fieldset-label">Address</label>
-      <input
-         required
-        type="text"
-        name="address"
-        placeholder="Type here"
-        className="input"
-        value={formData.address}
-        onChange={handleChange}
-      />
+        <div>
+          <label className="block text-sm font-medium">Last Name</label>
+          <input
+            type="text"
+            name="lastName"
+            className="input input-bordered w-full"
+            value={formData.lastName}
+            onChange={handleChange}
+          />
+        </div>
 
-      <label className="fieldset-label">Date of Birth</label>
-      <input
-        type="date"
-        name="dob"
-        className="input"
-        value={formData.dob}
-        onChange={handleChange}
-      />
+        <div>
+          <label className="block text-sm font-medium">Age</label>
+          <input
+            type="number"
+            name="age"
+            className="input input-bordered w-full"
+            value={formData.age}
+            onChange={handleChange}
+          />
+        </div>
 
-      <label className="fieldset-label">Profile</label>
-      <input
-        type="file"
-        name="profile"
-        id="profile-input"
-        className="input"
-        onChange={handleChange}
-      />
+        <div>
+          <label className="block text-sm font-medium">Date of Birth</label>
+          <input
+            type="date"
+            name="dob"
+            className="input input-bordered w-full"
+            value={formData.dob}
+            onChange={handleChange}
+          />
+        </div>
 
-      <label className="fieldset-label">Email</label>
-      <input
-         required
-        type="email"
-        name="email"
-        placeholder="Type here"
-        className="input"
-        value={formData.email}
-        onChange={handleChange}
-      />
+        <div className="col-span-2">
+          <label className="block text-sm font-medium">Address</label>
+          <input
+            type="text"
+            name="address"
+            className="input input-bordered w-full"
+            value={formData.address}
+            onChange={handleChange}
+          />
+        </div>
 
-      <label className="fieldset-label">Contact</label>
-      <input
-         required
-        type="text"
-        name="contact"
-        placeholder="Type here"
-        className="input"
-        value={formData.contact}
-        onChange={handleChange}
-      />
+        <div className="col-span-2">
+          <label className="block text-sm font-medium">Email</label>
+          <input
+            type="email"
+            name="email"
+            className="input input-bordered w-full"
+            value={formData.email}
+            onChange={handleChange}
+          />
+        </div>
 
-      {/* Pass formData to PasswordCreate via state */}
-      <Link to="/signup/pass" state={{ formData }} className="btn my-10 bg-red-500 text-white">
-        Continue
-      </Link>
+        <div className="col-span-2">
+          <label className="block text-sm font-medium">Contact Number</label>
+          <input
+            type="text"
+            name="contact"
+            className="input input-bordered w-full"
+            value={formData.contact}
+            onChange={handleChange}
+          />
+        </div>
 
-      <button className="btn my-10 btn-primary text-white" onClick={handleClear}>
-        Clear
+        <div className="col-span-2">
+          <label className="block text-sm font-medium">Profile Image</label>
+          <input
+            type="file"
+            name="profile"
+            className="file-input w-full"
+            onChange={handleChange}
+          />
+        </div>
+      </div>
+
+      {/* Password Section */}
+      <div className="mt-6">
+        <label className="block text-sm font-medium">Password</label>
+        <div className="flex items-center gap-2 w-full">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            placeholder="Enter password"
+            className="input input-bordered w-full"
+            value={formData.password}
+            onChange={handleChange}
+          />
+          <button
+            onClick={() => setShowPassword(!showPassword)}
+            className="p-2"
+          >
+            {showPassword ? (
+              <FaRegEyeSlash className="text-2xl" />
+            ) : (
+              <IoEyeOutline className="text-2xl" />
+            )}
+          </button>
+        </div>
+
+        <label className="block text-sm font-medium mt-4">Confirm Password</label>
+        <div className="flex items-center gap-2 w-full">
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            name="confirmPassword"
+            placeholder="Re-type password"
+            className="input input-bordered w-full"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+          />
+          <button
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            className="p-2"
+          >
+            {showConfirmPassword ? (
+              <FaRegEyeSlash className="text-2xl" />
+            ) : (
+              <IoEyeOutline className="text-2xl" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Register Button */}
+      <button
+        onClick={handleRegister}
+        className="btn btn-primary mt-6 w-full"
+        disabled={loading}
+      >
+        {loading ? "Registering..." : "Register"}
       </button>
-    </>
+
+      {/* Modal */}
+      {modalMessage && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div
+            className={`bg-white rounded-xl shadow-xl p-6 w-96 text-center ${
+              modalType === "error" ? "border-red-500" : "border-green-500"
+            } border-2`}
+          >
+            <h2
+              className={`text-xl font-bold mb-4 ${
+                modalType === "error" ? "text-red-600" : "text-green-600"
+              }`}
+            >
+              {modalType === "error" ? "Error" : "Success"}
+            </h2>
+            <p className="mb-4">{modalMessage}</p>
+            <button
+              className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg"
+              onClick={() => setModalMessage("")}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
-export default Form;
+export default Register;

@@ -1,16 +1,18 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
 
-import {
-  RouterProvider,
-} from "react-router-dom";
-import { router } from './Ruters.jsx';
+import {router} from './Ruters'
+import { createRoot } from "react-dom/client";
+import "./index.css";
+
+// তোমার router file
+import { StrictMode } from "react";
+import { AuthProvider } from "./pages/Auth/AuthContext";
+import { RouterProvider } from "react-router-dom";
 
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-   <RouterProvider router={router} />
-  </StrictMode>,
-)
-// comment 
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
+  </StrictMode>
+);
