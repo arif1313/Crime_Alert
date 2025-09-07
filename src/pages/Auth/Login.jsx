@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 import { FaRegEyeSlash } from "react-icons/fa";
 import { IoEyeOutline } from "react-icons/io5";
+import { useAuth } from "../Auth/AuthContext"; // ✅ context আনতে হবে
 
 const Login = () => {
   const [identifier, setIdentifier] = useState("");
@@ -10,8 +11,10 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
-  const [modalType, setModalType] = useState(""); // "error" | "success"
+  const [modalType, setModalType] = useState(""); 
   const navigate = useNavigate();
+
+  const { login } = useAuth(); // ✅ context থেকে login আনলাম
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,16 +26,17 @@ const Login = () => {
         password,
       });
 
-      // Save token + user in localStorage
-      localStorage.setItem("token", res.data.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.data.user));
+      const { token, user } = res.data.data;
+
+      // ✅ শুধু localStorage না, context এর login() ডাকতে হবে
+      login(user, token);
 
       setModalType("success");
       setModalMessage("✅ Login successful");
 
       setTimeout(() => {
         setModalMessage("");
-        navigate("/"); // Redirect after modal closes
+        navigate("/"); 
       }, 1500);
     } catch (err) {
       setModalType("error");
@@ -41,6 +45,7 @@ const Login = () => {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">

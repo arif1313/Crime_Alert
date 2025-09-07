@@ -4,7 +4,7 @@ import Main from "./Layout/Main";
 
 
  import Form from "./pages/SignUp/Form"; 
- import PasswordCreate from "./pages/SignUp/PasswordCreate"; 
+
 
  import MainReport from "./pages/Reports/MainReport"; 
  import ReportPost from "./pages/Report/ReportPost";
@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
 
       // Public routes
       { path: "signup/form", element: <Form /> },
-      { path: "signup/pass", element: <PasswordCreate /> },
+   
       { path: "login", element: <Login /> }, // Login page
 
       // Protected routes
