@@ -95,3 +95,8 @@ export const liveSearchByAddress = async (keyword) => {
   const res = await api.get(`/report/live/address?q=${keyword}`);
   return res.data;
 };
+// ✅ Combined search (type + title + location একসাথে)
+export const combinedSearch = async (params) => {
+  const res = await api.get("/report/combined/search", { params });
+  return res.data;
+};

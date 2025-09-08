@@ -6,6 +6,7 @@ import {
   Marker,
   StandaloneSearchBox
 } from "@react-google-maps/api";
+import { BiPhoneCall } from "react-icons/bi";
 
 const center = { lat: 23.8103, lng: 90.4125 };
 const dhakaBounds = { north: 23.99, south: 23.60, west: 90.20, east: 90.55 };
@@ -48,9 +49,7 @@ const Searchmap = () => {
     [crimeData]
   );
 
-  const handleFilterChange = (filterType, value) => {
-    setFilters((prev) => ({ ...prev, [filterType]: value }));
-  };
+
 
   const handlePlaceChanged = () => {
     const places = searchBoxRef.current.getPlaces();
@@ -62,33 +61,83 @@ const Searchmap = () => {
 
   return (
     <div>
+
+      <div>
+         <h3 className="font-semibold mb-2">Emargency call</h3>
+       <ul className="list bg-base-100 rounded-box shadow-md">
+  
+
+  
+  <li className="p-4 flex justify-between font-bold text-red-800">
+  {/* logo */} 
+    {/* <div>
+    
+      {/* <img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp"/> */}
+      
+      {/* </div> */}
+    <div>
+      <div>Local police</div>
+      <div className="text-xs uppercase font-semibold opacity-60">0175682565</div>
+    </div>
+  
+    <button className="btn btn-square btn-ghost">
+    <BiPhoneCall className="text-red-900"></BiPhoneCall>
+    </button>
+  </li>
+  
+  <li className="p-4 flex justify-between font-bold  text-red-800">
+    {/* <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/4@94.webp"/></div> */}
+    <div>
+      <div>Ambulance</div>
+      <div className="text-xs uppercase font-semibold opacity-60">5681284</div>
+    </div>
+   
+    <button className="btn btn-square btn-ghost">
+    <BiPhoneCall  className="text-red-900"></BiPhoneCall>
+     </button>
+  </li>
+  
+  <li className="p-4 flex justify-between font-bold text-red-800 ">
+    {/* <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp"/></div> */}
+    <div>
+      <div>FireFighter</div>
+      <div className="text-xs uppercase font-semibold opacity-60">36584281</div>
+    </div>
+   
+    <button className="btn btn-square btn-ghost">
+    <BiPhoneCall  className="text-red-900"></BiPhoneCall>
+    </button>
+  </li>
+  <li className="p-4 flex justify-between font-bold text-red-800 ">
+    {/* <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp"/></div> */}
+    <div>
+      <div>Doctore</div>
+      <div className="text-xs uppercase font-semibold opacity-60">987568</div>
+    </div>
+   
+    <button className="btn btn-square btn-ghost">
+
+    <BiPhoneCall  className="text-red-900"></BiPhoneCall>
+    </button>
+  </li>
+  <li className="p-4 flex justify-between font-bold text-red-800 ">
+    {/* <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp"/></div> */}
+    <div>
+      <div>Emargency</div>
+      <div className="text-xs uppercase font-semibold opacity-60">999</div>
+    </div>
+   
+    <button className="btn btn-square btn-ghost">
+    <BiPhoneCall  className="text-red-900"></BiPhoneCall>
+    </button>
+  </li>
+  
+</ul>
+      </div>
       <h2>Crime Heatmap - Dhaka</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* Filters */}
-      <div style={{ display: "flex", gap: "10px", marginBottom: "20px", flexWrap: "wrap" }}>
-        <label>Crime Type:</label>
-        <select onChange={(e) => handleFilterChange("crimeType", e.target.value)}>
-          <option value="all">All</option>
-          <option value="theft">Theft</option>
-          <option value="assault">Assault</option>
-          <option value="vandalism">Vandalism</option>
-        </select>
-
-        <label>Time Range:</label>
-        <select onChange={(e) => handleFilterChange("timeRange", e.target.value)}>
-          <option value="last24Hours">Last 24 Hours</option>
-          <option value="lastWeek">Last Week</option>
-          <option value="lastMonth">Last Month</option>
-        </select>
-
-        <label>Severity:</label>
-        <select onChange={(e) => handleFilterChange("severity", e.target.value)}>
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-        </select>
-      </div>
+      
 
       {/* Layout: Map 1/3 and other content 2/3 */}
       <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>

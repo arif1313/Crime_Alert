@@ -25,34 +25,60 @@ const ReportPost = () => {
     status: "pending",
   });
 
-  // Convert file to base64
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+  // // Convert file to base64
+  // const fileToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onload = () => resolve(reader.result);
+  //     reader.onerror = (error) => reject(error);
+  //   });
+  // };
 
-  const handleChange = async (e) => {
-    const { name, type, files, value, checked } = e.target;
+const handleChange = async (e) => {
+  const { name, type, files, value, checked } = e.target;
 
-    if (type === "file" && name === "reportImage" && files[0]) {
-      const file = files[0];
-      const base64 = await fileToBase64(file);
-      setFormData({
-        ...formData,
-        reportImage: base64,
-        reportImagePreview: URL.createObjectURL(file),
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: type === "checkbox" ? checked : value,
-      });
+  if (type === "file" && name === "reportImage" && files[0]) {
+    const file = files[0];
+
+    // Preview এর জন্য লোকাল URL
+    const previewUrl = URL.createObjectURL(file);
+    setFormData({ ...formData, reportImagePreview: previewUrl });
+
+    // === Upload to ImgBB ===
+    const formDataImg = new FormData();
+    formDataImg.append("image", file);
+
+    try {
+      const res = await fetch(
+        `https://api.imgbb.com/1/upload?key=e0ce6946d1f76fe9c8a4a3d506dca386`,
+        {
+          method: "POST",
+          body: formDataImg,
+        }
+      );
+      const data = await res.json();
+
+      if (data.success) {
+        // ImgBB থেকে লিঙ্ক নিয়ে reportImage এ সেট করা
+        setFormData((prev) => ({
+          ...prev,
+          reportImage: data.data.url, // ImgBB Image URL
+        }));
+      } else {
+        console.error("Image upload failed:", data);
+      }
+    } catch (error) {
+      console.error("Error uploading to ImgBB:", error);
     }
-  };
+  } else {
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  }
+};
+
 
 const handleSubmit = async () => {
   if (!user) {

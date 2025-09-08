@@ -33,63 +33,58 @@ const Register = () => {
   };
 
   // Register API call
-  const handleRegister = async () => {
-    if (!formData.password || !formData.confirmPassword) {
-      setModalType("error");
-      setModalMessage("Please enter both password fields.");
-      return;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setModalType("error");
-      setModalMessage("Passwords do not match!");
-      return;
-    }
+const handleRegister = async () => {
+  if (!formData.password || !formData.confirmPassword) {
+    setModalType("error");
+    setModalMessage("Please enter both password fields.");
+    return;
+  }
+  if (formData.password !== formData.confirmPassword) {
+    setModalType("error");
+    setModalMessage("Passwords do not match!");
+    return;
+  }
 
-    setLoading(true);
+  setLoading(true);
 
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/local-user/create",
-        {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          age: formData.age,
-          address: formData.address,
-          dateOfBirth: formData.dob,
-          email: formData.email,
-          contactNumber: formData.contact,
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/local-user/create", // ✅ তোমার backend এর route নাম localUsers/create
+      {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        age: formData.age,
+        address: formData.address,
+        dateOfBirth: formData.dob,
+        email: formData.email,
+        contactNumber: formData.contact, // ✅ ফিল্ড নাম ঠিক করলাম
+        password: formData.password,     // ✅ এখন backend এ যাবে
 
-          // ✅ profileImage must be a URI (string)
-          profileImage: formData.profile
-            ? URL.createObjectURL(formData.profile) // temporary blob URL
-            : "",
-
-          // ❌ password বাদ দিয়ে দিব backend এ পাঠানোর সময়
-        }
-      );
-
-      if (response.data.success) {
-        setModalType("success");
-        setModalMessage("Registration Successful!");
+        profileImage: "", // আপাতত empty রাখো
       }
-    } catch (err) {
-      if (err.response?.data?.details) {
-        setModalType("error");
-        setModalMessage(err.response.data.details.join(", "));
-      } else {
-        setModalType("error");
-        setModalMessage(err.response?.data?.message || "Something went wrong");
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
+    );
 
+    if (response.data.success) {
+      setModalType("success");
+      setModalMessage("Registration Successful!");
+    }
+  } catch (err) {
+    if (err.response?.data?.details) {
+      setModalType("error");
+      setModalMessage(err.response.data.details.join(", "));
+    } else {
+      setModalType("error");
+      setModalMessage(err.response?.data?.message || "Something went wrong");
+    }
+  } finally {
+    setLoading(false);
+  }
+};
 
 
   return (
     <div className="p-6 max-w-2xl mx-auto bg-white rounded-xl shadow-lg">
-      <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
+      <h2 className="text-2xl font-bold text-center mb-6 text-red-400">Register</h2>
 
       {/* Form Fields */}
       <div className="grid grid-cols-2 gap-4">
@@ -200,7 +195,7 @@ const Register = () => {
             {showPassword ? (
               <FaRegEyeSlash className="text-2xl" />
             ) : (
-              <IoEyeOutline className="text-2xl" />
+              <IoEyeOutline className="text-2xl  " />
             )}
           </button>
         </div>
@@ -216,6 +211,7 @@ const Register = () => {
             onChange={handleChange}
           />
           <button
+          
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             className="p-2"
           >
@@ -231,7 +227,7 @@ const Register = () => {
       {/* Register Button */}
       <button
         onClick={handleRegister}
-        className="btn btn-primary mt-6 w-full"
+        className="btn  bg-red-700 hover:bg-red-900 mt-6 w-full text-white"
         disabled={loading}
       >
         {loading ? "Registering..." : "Register"}

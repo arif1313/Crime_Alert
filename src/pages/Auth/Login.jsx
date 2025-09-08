@@ -88,7 +88,7 @@ const Login = () => {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          className="w-full bg-red-600 text-white py-2 rounded hover:bg-red-900"
           disabled={loading}
         >
           {loading ? "Logging in..." : "Login"}
@@ -97,7 +97,7 @@ const Login = () => {
         <div className="text-center mt-4">
           <Link
             to="/forgot-password"
-            className="text-sm text-blue-600 hover:underline"
+            className="text-sm text-red-500 hover:underline"
           >
             Forgot Password?
           </Link>

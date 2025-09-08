@@ -31,21 +31,25 @@ const Reports = () => {
       </div>
 
       {/* Right Section */}
-      <div className="w-2/3 p-5 flex flex-col gap-5">
+      <div className="w-2/3 p-5 flex flex-col gap-5 ">
         {/* Fixed Header */}
-        <div className="text-xl sticky top-0 bg-white z-10 p-3">
+        <div className="text-xl sticky top-0 bg-white z-10 p-3 ">
           <h1>Search Area-Based Report</h1>
-          <div className="flex justify-around">
-            <input
+          <div className="flex gap-6">
+          <div>
+              <input
               type="text"
               placeholder="Search area reports"
               className="input input-neutral"
             />
-            <input
+          </div>
+           <div>
+             <input
               type="text"
               placeholder="Category"
               className="input input-neutral"
             />
+           </div>
             <button className="btn bg-[#be171f] border-[#821a1f] text-white hover:from-[#9d171e] hover:to-[#be171f]">
               Search
             </button>

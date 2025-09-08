@@ -1,4 +1,4 @@
-import { BiPhoneCall } from "react-icons/bi";
+
 
 const RightPanel = () => (
   <div className="w-full lg:w-1/4  p-2 space-y-4 ">
@@ -41,76 +41,7 @@ const RightPanel = () => (
      </div>
      <div className="bg-red-200  rounded-xl p-4 shadow-2xl">
        
-       <h3 className="font-semibold mb-2">Emargency call</h3>
-       <ul className="list bg-base-100 rounded-box shadow-md">
-  
-
-  
-  <li className="p-4 flex justify-between font-bold text-red-800">
-  {/* logo */} 
-    {/* <div>
-    
-      {/* <img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp"/> */}
       
-      {/* </div> */}
-    <div>
-      <div>Local police</div>
-      <div className="text-xs uppercase font-semibold opacity-60">0175682565</div>
-    </div>
-  
-    <button className="btn btn-square btn-ghost">
-    <BiPhoneCall className="text-red-900"></BiPhoneCall>
-    </button>
-  </li>
-  
-  <li className="p-4 flex justify-between font-bold  text-red-800">
-    {/* <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/4@94.webp"/></div> */}
-    <div>
-      <div>Ambulance</div>
-      <div className="text-xs uppercase font-semibold opacity-60">5681284</div>
-    </div>
-   
-    <button className="btn btn-square btn-ghost">
-    <BiPhoneCall  className="text-red-900"></BiPhoneCall>
-     </button>
-  </li>
-  
-  <li className="p-4 flex justify-between font-bold text-red-800 ">
-    {/* <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp"/></div> */}
-    <div>
-      <div>FireFighter</div>
-      <div className="text-xs uppercase font-semibold opacity-60">36584281</div>
-    </div>
-   
-    <button className="btn btn-square btn-ghost">
-    <BiPhoneCall  className="text-red-900"></BiPhoneCall>
-    </button>
-  </li>
-  <li className="p-4 flex justify-between font-bold text-red-800 ">
-    {/* <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp"/></div> */}
-    <div>
-      <div>Doctore</div>
-      <div className="text-xs uppercase font-semibold opacity-60">987568</div>
-    </div>
-   
-    <button className="btn btn-square btn-ghost">
-
-    <BiPhoneCall  className="text-red-900"></BiPhoneCall>
-    </button>
-  </li>
-  <li className="p-4 flex justify-between font-bold text-red-800 ">
-    {/* <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/3@94.webp"/></div> */}
-    <div>
-      <div>Emargency</div>
-      <div className="text-xs uppercase font-semibold opacity-60">999</div>
-    </div>
-   
-    <button className="btn btn-square btn-ghost">
-    <BiPhoneCall  className="text-red-900"></BiPhoneCall>
-    </button>
-  </li>
-  
-</ul>
      </div>
 
     </div>

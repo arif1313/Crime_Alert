@@ -32,12 +32,12 @@ export const router = createBrowserRouter([
         ],
       },
 
-      // Public routes
+  
       { path: "signup/form", element: <Form /> },
    
-      { path: "login", element: <Login /> }, // Login page
+      { path: "login", element: <Login /> },
 
-      // Protected routes
+     
       {
         element: <ProtectedRoute />,
         children: [
