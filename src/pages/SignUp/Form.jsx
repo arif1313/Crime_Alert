@@ -48,19 +48,27 @@ const handleRegister = async () => {
   setLoading(true);
 
   try {
-    const response = await axios.post(
-      "http://localhost:5000/api/v1/local-user/create", // ✅ তোমার backend এর route নাম localUsers/create
-      {
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        age: formData.age,
-        address: formData.address,
-        dateOfBirth: formData.dob,
-        email: formData.email,
-        contactNumber: formData.contact, // ✅ ফিল্ড নাম ঠিক করলাম
-        password: formData.password,     // ✅ এখন backend এ যাবে
+    const data = new FormData();
+    data.append("firstName", formData.firstName);
+    data.append("lastName", formData.lastName);
+    data.append("age", formData.age);
+    data.append("address", formData.address);
+    data.append("dateOfBirth", formData.dob);
+    data.append("email", formData.email);
+    data.append("contactNumber", formData.contact);
+    data.append("password", formData.password);
 
-        profileImage: "", // আপাতত empty রাখো
+    if (formData.profile) {
+      data.append("profile", formData.profile); // Multer field name === "profile"
+    }
+
+    const response = await axios.post(
+      "http://localhost:5000/api/v1/local-user/create", // ✅ backend এ Multer যুক্ত route
+      data,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       }
     );
 

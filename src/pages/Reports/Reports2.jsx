@@ -1,101 +1,34 @@
-import  { useEffect, useState } from "react";
-import SingleReport from "./SingleReport";
-import { getAllReports, combinedSearch } from "../../Api/ReportApi";
+import PropTypes from "prop-types";
 
-const Reports = () => {
-  const [reports, setReports] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  const [reportType, setReportType] = useState("");
-  const [reportTitle, setReportTitle] = useState("");
-  const [reportLocation, setReportLocation] = useState("");
-
-  useEffect(() => {
-    const loadReports = async () => {
-      try {
-        const res = await getAllReports();
-        if (res.success) setReports(res.data);
-      } catch (err) {
-        console.error("Error fetching reports:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadReports();
-  }, []);
-
-  // Combined search function
-  const handleSearch = async () => {
-    setLoading(true);
-    try {
-      const res = await combinedSearch({
-        reportType: reportType || undefined,
-        reportTitle: reportTitle || undefined,
-        reportLocation: reportLocation || undefined,
-      });
-      if (res.success) setReports(res.data);
-    } catch (err) {
-      console.error("Error searching reports:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+const SingleReport = ({ report, manageMode }) => {
   return (
-    <div className="flex gap-10 container justify-between w-full mx-auto">
-      <div className="flex flex-col gap-5">
-        {/* Fixed Header */}
-        <div className="text-xl sticky top-12 bg-white z-10 p-3">
-          <h1 className="p-3">Search Area-Based Report</h1>
-          <div className="flex justify-around gap-2">
-            <input
-              type="text"
-              placeholder="Search by title"
-              value={reportTitle}
-              onChange={(e) => setReportTitle(e.target.value)}
-              className="input input-neutral"
-            />
-            <input
-              type="text"
-              placeholder="Search by area"
-              value={reportLocation}
-              onChange={(e) => setReportLocation(e.target.value)}
-              className="input input-neutral"
-            />
-            <select
-              name="reportType"
-              value={reportType}
-              onChange={(e) => setReportType(e.target.value)}
-              className="select select-neutral w-full"
-            >
-              <option value="">All Types</option>
-              <option value="murder">Murder</option>
-              <option value="robbery">Robbery</option>
-              <option value="fraud">Fraud</option>
-              <option value="assault">Assault</option>
-              <option value="theft">Theft</option>
-              <option value="arson">Arson</option>
-              <option value="other">Other</option>
-            </select>
-            <button
-              className="btn bg-[#be171f] border-[#821a1f] text-white"
-              onClick={handleSearch}
-            >
-              Search
-            </button>
-          </div>
-        </div>
+    <div className="hero flex flex-col shadow-2xl">
+      <div className="flex w-full flex-col lg:flex-row bg-[#ffc8cb] text-[#47080b]">
+        <img
+          src={report.reportImage || "https://via.placeholder.com/300"}
+          alt={report.reportTitle}
+          className="w-full lg:w-72 h-72 rounded-md shadow-2xl"
+        />
 
-        {/* Scrollable Reports */}
-        <div className="overflow-auto p-2 flex flex-col gap-5">
-          {loading ? (
-            <p>Loading reports...</p>
-          ) : reports.length === 0 ? (
-            <p>No reports found</p>
-          ) : (
-            reports.map((report) => (
-              <SingleReport key={report._id} report={report} />
-            ))
+        <div className="p-5">
+          <h1 className="text-2xl font-bold">{report.reportTitle}</h1>
+          <p className="py-6">{report.reportDescription}</p>
+        </div>
+      </div>
+
+      {/* Action Buttons */}
+      <div className="flex justify-between gap-5 w-full p-5">
+        <div className="flex gap-6">
+          <button className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]">Save</button>
+          <button className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]">Verify</button>
+          <button className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]">Alert</button>
+          <button className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]">Help</button>
+          {/* Show Update/Delete only in manageMode */}
+          {manageMode && (
+            <>
+              <button className="btn btn-xs bg-green-500 text-white">Update</button>
+              <button className="btn btn-xs bg-red-500 text-white">Delete</button>
+            </>
           )}
         </div>
       </div>
@@ -103,4 +36,13 @@ const Reports = () => {
   );
 };
 
-export default Reports;
+SingleReport.propTypes = {
+  report: PropTypes.shape({
+    reportTitle: PropTypes.string.isRequired,
+    reportDescription: PropTypes.string,
+    reportImage: PropTypes.string,
+  }).isRequired,
+  manageMode: PropTypes.bool, // ✅ add this line
+};
+
+export default SingleReport;

@@ -127,10 +127,12 @@ export const unblockLocalUser = async (id) => {
 // 1️⃣3️⃣ Search LocalUser by userId
 export const searchByUserId = async (userId) => {
   try {
-    const res = await API.get(`/search/userId?userId=${userId}`);
-    return res.data;
+    const res = await API.get(`/search/userId/${userId}`);
+
+    return res.data; // এখানে res.data = { success, data }
   } catch (err) {
-    return { success: false, message: err.response?.data?.message || err.message };
+    return { success: false, message: err.message };
   }
 };
+
 
