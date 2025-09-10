@@ -12,12 +12,12 @@ import Main from "./Layout/Main";
    import Profile from "./pages/Profile/Profile"; 
   
    import ReportAnalysis from "./pages/Profile/ReportAnalysis";
-    import ManageReport from "./pages/Profile/ManageReport/Managereport";
      import SafetyTIps from "./pages/Home/safetyTips/SafetyTIps"; 
      import Connection from "./pages/Connection/Connection"; 
      import Feed from "./pages/Home/Feed";
 import Login from "./pages/Auth/Login";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
+import ReportDetails from "./pages/Reports/ReportDetails ";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -29,7 +29,8 @@ export const router = createBrowserRouter([
         children: [
           { path: "", element: <Feed /> },
           { path: "connect", element: <Connection /> },
-        ],
+        {path:"/report/:id", element:<ReportDetails />} 
+        ]
       },
 
   
@@ -41,9 +42,8 @@ export const router = createBrowserRouter([
       {
         element: <ProtectedRoute />,
         children: [
-          { path: "profile", element: <Profile /> },
+          { path: "profile", element: <Profile />,},
           { path: "profile/analysis", element: <ReportAnalysis /> },
-          { path: "profile/manage", element: <ManageReport /> },
           { path: "report", element: <ReportPost /> },
           { path: "safety-tips", element: <SafetyTIps /> },
           { path: "connect", element: <Connection /> },

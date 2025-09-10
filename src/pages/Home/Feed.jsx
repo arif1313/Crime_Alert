@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Report2 from "../Reports/Reports2";
+import Reports from "../Reports/Reports";
 import { getAllReports } from "../../Api/ReportApi";
 
 const Feed = () => {
@@ -22,12 +22,15 @@ const Feed = () => {
 
   return (
     <div className="w-full lg:w-2/4 p-2">
-      <Report2
+      
+      <Reports
         reports={reports}
         setReports={setReports}
         loading={loading}
         setLoading={setLoading}
         manageable={false}
+        mainrout={'feed'}
+
       />
     </div>
   );

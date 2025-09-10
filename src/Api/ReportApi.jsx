@@ -100,3 +100,8 @@ export const combinedSearch = async (params) => {
   const res = await api.get("/report/combined/search", { params });
   return res.data;
 };
+// ✅ Search deleted reports by reporterId
+export const searchDeletedByReporterId = async (reporterId) => {
+  const res = await api.get(`/report/search/deleted/reporterId/${reporterId}`);
+  return res.data;
+};

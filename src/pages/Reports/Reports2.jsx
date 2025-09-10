@@ -1,48 +1,49 @@
-import PropTypes from "prop-types";
+import SingleReport from "./SingleReport";
 
-const SingleReport = ({ report, manageMode }) => {
+const Report2 = ({ reports, loading }) => {
   return (
-    <div className="hero flex flex-col shadow-2xl">
-      <div className="flex w-full flex-col lg:flex-row bg-[#ffc8cb] text-[#47080b]">
-        <img
-          src={report.reportImage || "https://via.placeholder.com/300"}
-          alt={report.reportTitle}
-          className="w-full lg:w-72 h-72 rounded-md shadow-2xl"
-        />
-
-        <div className="p-5">
-          <h1 className="text-2xl font-bold">{report.reportTitle}</h1>
-          <p className="py-6">{report.reportDescription}</p>
+    <div className="flex gap-10 container justify-between w-full mx-auto">
+      {/* Right Section */}
+      <div className="flex flex-col gap-5 w-full">
+        {/* Fixed Header */}
+        <div className="text-xl sticky top-14 bg-white z-10 p-3">
+          <h1>Search Area-Based Report</h1>
+          <div className="flex gap-6">
+            <div>
+              <input
+                type="text"
+                placeholder="Search area reports"
+                className="input input-neutral"
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                placeholder="Category"
+                className="input input-neutral"
+              />
+            </div>
+            <button className="btn bg-[#be171f] border-[#821a1f] text-white hover:from-[#9d171e] hover:to-[#be171f]">
+              Search
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Action Buttons */}
-      <div className="flex justify-between gap-5 w-full p-5">
-        <div className="flex gap-6">
-          <button className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]">Save</button>
-          <button className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]">Verify</button>
-          <button className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]">Alert</button>
-          <button className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]">Help</button>
-          {/* Show Update/Delete only in manageMode */}
-          {manageMode && (
-            <>
-              <button className="btn btn-xs bg-green-500 text-white">Update</button>
-              <button className="btn btn-xs bg-red-500 text-white">Delete</button>
-            </>
+        {/* Scrollable Reports */}
+        {/* <div className="overflow-auto p-2 flex flex-col gap-5">
+          {loading ? (
+            <p>Loading reports...</p>
+          ) : reports.length === 0 ? (
+            <p>No reports found</p>
+          ) : (
+            reports.map((report) => (
+              <SingleReport key={report._id} report={report} />
+            ))
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
 };
 
-SingleReport.propTypes = {
-  report: PropTypes.shape({
-    reportTitle: PropTypes.string.isRequired,
-    reportDescription: PropTypes.string,
-    reportImage: PropTypes.string,
-  }).isRequired,
-  manageMode: PropTypes.bool, // ✅ add this line
-};
-
-export default SingleReport;
+export default Report2;
