@@ -1,21 +1,23 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { AuthContext } from "../Auth/AuthContext";
-import { createReport } from "../../Api/ReportApi";
+import { getReportById, updateReport } from "../../Api/ReportApi";
 
-const ReportPost = () => {
+const ReportUpdate = () => {
   const { user } = useContext(AuthContext);
+  const { id } = useParams();
 
-  const [isTitleEditing, setIsTitleEditing] = useState(false);
-  const [isTextEditing, setIsTextEditing] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [isTitleEditing, setIsTitleEditing] = useState(false);
+  const [isTextEditing, setIsTextEditing] = useState(false);
 
   const [formData, setFormData] = useState({
     reportTitle: "",
     reportDescription: "",
-    reportImage: "", // single image as base64
-    reportImagePreview: "", // preview URL
+    reportImage: "",
+    reportImagePreview: "",
     reportLocation: "",
     reportType: "other",
     informPerson: false,
@@ -23,121 +25,115 @@ const ReportPost = () => {
     crimeDate: "",
     crimeTime: "",
     status: "pending",
-   
   });
 
-  // // Convert file to base64
-  // const fileToBase64 = (file) => {
-  //   return new Promise((resolve, reject) => {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onload = () => resolve(reader.result);
-  //     reader.onerror = (error) => reject(error);
-  //   });
-  // };
+  // Load report by ID
+  useEffect(() => {
+    const loadReport = async () => {
+      try {
+        const res = await getReportById(id);
+        if (res.success) {
+          setFormData({
+            reportTitle: res.data.reportTitle || "",
+            reportDescription: res.data.reportDescription || "",
+            reportImage: res.data.reportImage || "",
+            reportImagePreview: res.data.reportImage || "",
+            reportLocation: res.data.reportLocation || "",
+            reportType: res.data.reportType || "other",
+            informPerson: res.data.informPerson || false,
+            informLocalPolice: res.data.informLocalPolice || false,
+            crimeDate: res.data.crimeDate || "",
+            crimeTime: res.data.crimeTime || "",
+            status: res.data.status || "pending",
+          });
+        }
+      } catch (err) {
+        console.error("Error fetching report:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadReport();
+  }, [id]);
 
-const handleChange = async (e) => {
-  const { name, type, files, value, checked } = e.target;
+  // Handle form change
+  const handleChange = async (e) => {
+    const { name, type, files, value, checked } = e.target;
 
-  if (type === "file" && name === "reportImage" && files[0]) {
-    const file = files[0];
+    if (type === "file" && name === "reportImage" && files[0]) {
+      const file = files[0];
+      const previewUrl = URL.createObjectURL(file);
+      setFormData({ ...formData, reportImagePreview: previewUrl });
 
-    // Preview এর জন্য লোকাল URL
-    const previewUrl = URL.createObjectURL(file);
-    setFormData({ ...formData, reportImagePreview: previewUrl });
+      // Upload image to ImgBB
+      const formDataImg = new FormData();
+      formDataImg.append("image", file);
 
-    // === Upload to ImgBB ===
-    const formDataImg = new FormData();
-    formDataImg.append("image", file);
+      try {
+        const res = await fetch(
+          `https://api.imgbb.com/1/upload?key=e0ce6946d1f76fe9c8a4a3d506dca386`,
+          { method: "POST", body: formDataImg }
+        );
+        const data = await res.json();
+        if (data.success) {
+          setFormData((prev) => ({
+            ...prev,
+            reportImage: data.data.url,
+          }));
+        } else {
+          console.error("Image upload failed:", data);
+        }
+      } catch (error) {
+        console.error("Error uploading to ImgBB:", error);
+      }
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === "checkbox" ? checked : value,
+      });
+    }
+  };
+
+  // Submit update
+  const handleSubmit = async () => {
+    if (!user) {
+      setError("You must be logged in to update a report!");
+      document.getElementById("error_modal").showModal();
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setSuccess(null);
 
     try {
-      const res = await fetch(
-        `https://api.imgbb.com/1/upload?key=e0ce6946d1f76fe9c8a4a3d506dca386`,
-        {
-          method: "POST",
-          body: formDataImg,
-        }
-      );
-      const data = await res.json();
+      const payload = {
+        reportTitle: formData.reportTitle,
+        reportDescription: formData.reportDescription,
+        reportImage: formData.reportImage,
+        reportLocation: formData.reportLocation,
+        reportType: formData.reportType,
+        informPerson: formData.informPerson,
+        informLocalPolice: formData.informLocalPolice,
+        crimeDate: formData.crimeDate || null,
+        crimeTime: formData.crimeTime || null,
+        status: formData.status,
+      };
 
-      if (data.success) {
-        // ImgBB থেকে লিঙ্ক নিয়ে reportImage এ সেট করা
-        setFormData((prev) => ({
-          ...prev,
-          reportImage: data.data.url, // ImgBB Image URL
-        }));
-      } else {
-        console.error("Image upload failed:", data);
+      const res = await updateReport(id, payload);
+      if (res.success) {
+        setSuccess("✅ Report Updated Successfully!");
+        document.getElementById("success_modal").showModal();
       }
-    } catch (error) {
-      console.error("Error uploading to ImgBB:", error);
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong!");
+      document.getElementById("error_modal").showModal();
+    } finally {
+      setLoading(false);
     }
-  } else {
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
-    });
-  }
-};
+  };
 
-
-const handleSubmit = async () => {
-  if (!user) {
-    setError("You must be logged in to post a report!");
-    document.getElementById("error_modal").showModal();
-    return;
-  }
-
-  setLoading(true);
-  setError(null);
-  setSuccess(null);
-
-  try {
-    // Only send fields backend expects
-    const payload = {
-      reportTitle: formData.reportTitle,
-      reportDescription: formData.reportDescription,
-      reportImage: formData.reportImage,
-      reporterId: user._id,
-      reportLocation: formData.reportLocation,
-      reportType: formData.reportType,
-      informPerson: formData.informPerson,
-      informLocalPolice: formData.informLocalPolice,
-      crimeDate: formData.crimeDate || null,
-      crimeTime: formData.crimeTime || null,
-      status: formData.status,
-      isBlocked: false,
-      isDeleted: false,
-      
-    };
-
-    await createReport(payload);
-
-    setSuccess("✅ Report Created Successfully!");
-    document.getElementById("success_modal").showModal();
-
-    // Reset form
-    setFormData({
-      reportTitle: "",
-      reportDescription: "",
-      reportImage: "",
-      reportImagePreview: "",
-      reportLocation: "",
-      reportType: "other",
-      informPerson: false,
-      informLocalPolice: false,
-      crimeDate: "",
-      crimeTime: "",
-      status: "pending",
-     
-    });
-  } catch (err) {
-    setError(err.response?.data?.message || "Something went wrong!");
-    document.getElementById("error_modal").showModal();
-  } finally {
-    setLoading(false);
-  }
-};
+  if (loading) return <p className="text-center py-10">Loading...</p>;
 
   return (
     <div className="flex bg-gray-50">
@@ -325,12 +321,12 @@ const handleSubmit = async () => {
               disabled={loading}
               className="btn bg-red-500 text-white mt-4"
             >
-              {loading ? "Posting..." : "Post"}
+              {loading ? "Updating..." : "Update"}
             </button>
           </div>
         </div>
 
-        {/* Modals */}
+        {/* Error Modal */}
         <dialog id="error_modal" className="modal">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-red-600">Error</h3>
@@ -343,6 +339,7 @@ const handleSubmit = async () => {
           </div>
         </dialog>
 
+        {/* Success Modal */}
         <dialog id="success_modal" className="modal">
           <div className="modal-box">
             <h3 className="font-bold text-lg text-green-600">Success</h3>
@@ -359,4 +356,4 @@ const handleSubmit = async () => {
   );
 };
 
-export default ReportPost;
+export default ReportUpdate;

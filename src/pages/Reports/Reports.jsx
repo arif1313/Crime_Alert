@@ -8,9 +8,9 @@ const Reports = ({ reports, setReports, loading, manageable, mainrout }) => {
       setReports((prev) => prev.filter((r) => r._id !== id));
     }
   };
-
+console.log('reports',reports)
   return (
-    <div className="flex gap-10 container justify-between w-full mx-auto">
+    <div className="flex gap-10 container justify-between  mx-auto">
       {/* Right Section */}
       <div className="flex flex-col gap-5 w-full">
         {/* Fixed Header */}
@@ -59,6 +59,7 @@ const Reports = ({ reports, setReports, loading, manageable, mainrout }) => {
                   report={report}
                   manageable={manageable}
                   onDeleted={handleDeleted}
+                  mainrout={mainrout}
                 />
               ))
             )}

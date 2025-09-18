@@ -51,13 +51,7 @@ const Searchmap = () => {
 
 
 
-  const handlePlaceChanged = () => {
-    const places = searchBoxRef.current.getPlaces();
-    if (places.length > 0) {
-      const location = places[0].geometry.location;
-      setMapCenter({ lat: location.lat(), lng: location.lng() });
-    }
-  };
+  
 
   return (
     <div>
@@ -134,70 +128,10 @@ const Searchmap = () => {
   
 </ul>
       </div>
-      <h2>Crime Heatmap - Dhaka</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-
+      
       
 
-      {/* Layout: Map 1/3 and other content 2/3 */}
-      <div style={{ display: "flex", gap: "20px", flexWrap: "wrap" }}>
-        {/* Map Section - 1/3 width */}
-        <div className="flex-1 w-full">
-          <LoadScript
-            googleMapsApiKey="AIzaSyAFA9f9k3pUDG6B1LkD1wtPLFNfS1lt4ec"
-            libraries={["visualization", "places"]}
-          >
-            <StandaloneSearchBox
-              onLoad={(ref) => (searchBoxRef.current = ref)}
-              onPlacesChanged={handlePlaceChanged}
-            >
-              <input
-                type="text"
-                placeholder="Search location"
-                style={{
-                  
-                  border: "1px solid transparent",
-                  width: "100%",
-                  height: "40px",
-                 
-                  padding: "0 12px",
-                  fontSize: "16px",
-                }}
-              />
-            </StandaloneSearchBox>
-
-            <GoogleMap
-              mapContainerStyle={{ width: "100%", height: "200px" }}
-              center={mapCenter}
-              zoom={11}
-              options={{
-                restriction: { latLngBounds: dhakaBounds, strictBounds: true },
-                minZoom: 10,
-                maxZoom: 14,
-              }}
-            >
-              <HeatmapLayer data={heatmapData} />
-              {crimeData.map((crime, index) => (
-                <Marker
-                  key={index}
-                  position={{ lat: crime.lat, lng: crime.lng }}
-                  onClick={() =>
-                    alert(`Crime Type: ${crime.type}\nDate: ${crime.date}`)
-                  }
-                />
-              ))}
-            </GoogleMap>
-          </LoadScript>
-        </div>
-
-        {/* Other content - 2/3 width */}
-        <div style={{ flex: "2", minWidth: "300px" }}>
-          <h4>Crime Summary</h4>
-          <p>Total Crimes: {crimeData.length}</p>
-          <p>Selected Center: {mapCenter.lat.toFixed(4)}, {mapCenter.lng.toFixed(4)}</p>
-          {/* Add more details or stats here */}
-        </div>
-      </div>
+     
     </div>
   );
 };

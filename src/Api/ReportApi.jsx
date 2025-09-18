@@ -10,6 +10,7 @@ export const createReport = async (payload) => {
 export const updateReport = async (id, payload) => {
   const res = await api.put(`/report/update/${id}`, payload);
   return res.data;
+ 
 };
 
 // ✅ Soft delete report
@@ -103,5 +104,12 @@ export const combinedSearch = async (params) => {
 // ✅ Search deleted reports by reporterId
 export const searchDeletedByReporterId = async (reporterId) => {
   const res = await api.get(`/report/search/deleted/reporterId/${reporterId}`);
+  return res.data;
+};
+
+
+// / ✅ Verify report (increments varifyNumber and adds user to verifiedBy)
+export const verifyReport = async (id) => {
+  const res = await api.patch(`/report/verify/${id}`);
   return res.data;
 };

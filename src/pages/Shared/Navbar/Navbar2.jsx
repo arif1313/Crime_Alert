@@ -63,6 +63,15 @@ const Navbar2 = () => {
       <BiLink className="text-xl" />
       Connection
     </NavLink>
+
+    
+    <NavLink 
+      to="/map" 
+      className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold"
+    >
+      <BiLink className="text-xl" />
+      heatMap
+    </NavLink>
   </>
 )}
 

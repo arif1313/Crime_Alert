@@ -50,7 +50,7 @@ const ProfileSidebar = ({ userId }) => {
   };
 
   return (
-    <div className="w-full lg:w-1/4 p-2 space-y-4 lg:fixed">
+    <div className=" p-2 space-y-4 ">
       {!loading && localUserdata && (
         <div className="bg-gradient-to-b from-pink-200 to-pink-100 shadow-lg rounded-2xl p-6 text-center lg:min-h-screen">
           {/* Profile Image */}
@@ -64,7 +64,7 @@ const ProfileSidebar = ({ userId }) => {
           <h2 className="font-bold text-xl text-gray-800">
             {localUserdata?.firstName} {localUserdata?.lastName}
           </h2>
-         
+           <span className="indicator-item badge badge-secondary text-black">{user?.role}</span>
 
           {/* Info Section */}
           <div className="mt-6 space-y-4 text-left bg-white/60 p-4 rounded-lg shadow-inner">
