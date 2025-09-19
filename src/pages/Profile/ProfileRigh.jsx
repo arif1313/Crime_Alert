@@ -13,16 +13,17 @@ const ProfileRigh = ({role='localPolice'}) => (
         Your Profile
       </NavLink>
     </li>
+     <li>
+      <NavLink to="/profile/myReport" className="border-b-2 w-34">
+        My Report
+      </NavLink>
+    </li>
     <li>
       <NavLink to="/profile/analysis" className="border-b-2 w-34">
         Analysis
       </NavLink>
     </li>
-      <li>
-      <NavLink to="/profile/state" className="border-b-2 w-34">
-        State
-      </NavLink>
-    </li>
+      
     <li>
       <NavLink to="/profile/deleted" className="border-b-2 w-34">
         Deleted reports
@@ -35,33 +36,26 @@ const ProfileRigh = ({role='localPolice'}) => (
       </NavLink>
     </li>
     <li>
-      <NavLink to="" className="border-b-2">
-        Manage report
+      <NavLink to="/profile/action" className="border-b-2 w-34">
+        Action report
       </NavLink>
     </li>
     <li>
-      <NavLink to="" className="border-b-2 w-34">
-        action report
-      </NavLink>
-    </li>
-    <li>
-      <NavLink to="" className="border-b-2 w-34">
+      <NavLink to="/profile/userMange" className="border-b-2 w-34">
         Manage user
       </NavLink>
-      <NavLink to="" className="border-b-2 w-34">
-        Reports Analysis
+      <NavLink to="/profile/areaReport" className="border-b-2 w-34">
+       Report Overview
       </NavLink>
       <NavLink to="" className="border-b-2 w-34">
         Deleted User
       </NavLink>
-      <NavLink to="" className="border-b-2 w-34">
-        Blocked User
+     
+       <NavLink to="/profile/ActionTeam/create" className="border-b-2 w-34">
+       Create team
       </NavLink>
-        <NavLink to="" className="border-b-2 w-34">
-        Blocked Report
-      </NavLink>
-       <NavLink to="" className="border-b-2 w-34">
-       Total GD
+       <NavLink to="/profile/Manage/ActionTeam" className="border-b-2 w-34">
+       ActionTeam
       </NavLink>
 
     </li>
@@ -91,6 +85,17 @@ const ProfileRigh = ({role='localPolice'}) => (
        create Police Sation
       </NavLink>
 
+    </li>
+    </>}
+    {role=="actionTeam" && <>  <li>
+      <NavLink to="/profile" className="border-b-2 w-34">
+        YourTask
+      </NavLink>
+    </li>
+    <li>
+      <NavLink to="" className="border-b-2 w-34">
+       TotalTask 
+      </NavLink>
     </li>
     </>}
   </ul>

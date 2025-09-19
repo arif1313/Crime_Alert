@@ -113,3 +113,12 @@ export const verifyReport = async (id) => {
   const res = await api.patch(`/report/verify/${id}`);
   return res.data;
 };
+
+export const getReportsWithActionTaken = async () => {
+  try {
+    const res = await api.get("/report/with-action-taken");
+    return res.data; // { success: true, data: [...] }
+  } catch (err) {
+    return { success: false, message: err.response?.data?.message || err.message };
+  }
+};

@@ -2,7 +2,7 @@ import axios from "axios";
 
 const API = axios.create({
   baseURL: "http://localhost:5000/api/v1/local-user", // তোমার backend base URL
-  withCredentials: true,
+   withCredentials: true,
 });
 
 // 1️⃣ Create LocalUser

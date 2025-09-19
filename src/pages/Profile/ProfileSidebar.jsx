@@ -8,27 +8,29 @@ const ProfileSidebar = ({ userId }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [backupData, setBackupData] = useState(null);
  const { user } = useAuth();
+ console.log('user',user)
   useEffect(() => {
-   
     const loadData = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/api/v1/local-user/search/userId?userId=${userId}`
-        );
-        const data = await res.json();
-        if (data.success && data.data) {
-          setLocalUser(data.data);
+        let url = "";
+        if (user?.role === "actionTeam") {
+            url = `http://localhost:5000/api/v1/actionteam/user/${userId}`;
+        } else {
+        
+          url = `http://localhost:5000/api/v1/local-user/search/userId?userId=${userId}`;
         }
+        const res = await fetch(url);
+        const data = await res.json();
+        if (data.success && data.data) setLocalUser(data.data);
       } catch (err) {
-        console.error("❌ Error fetching local user:", err);
+        console.error("❌ Error fetching profile:", err);
       } finally {
         setLoading(false);
-      }
+      } 
     };
 
     if (userId) loadData();
-  }, [userId]);
-
+  }, [userId, user?.role]);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLocalUser((prev) => ({ ...prev, [name]: value }));
