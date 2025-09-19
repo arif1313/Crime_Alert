@@ -1,6 +1,6 @@
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import logo from "../../../assets/home/icons/logo.png";
-import { BiAlarm, BiDice1, BiHome, BiLink, BiLogIn, BiSolidContact } from "react-icons/bi";
+import { BiAlarm, BiDice1, BiHome, BiLink, BiLogIn } from "react-icons/bi";
 import { AiFillProfile } from "react-icons/ai";
 import { useAuth } from "../../Auth/AuthContext";
 
@@ -47,24 +47,6 @@ const Navbar2 = () => {
       <BiAlarm className="text-xl" />
       Alert
     </NavLink>
-
-    <NavLink 
-      to="/contact" 
-      className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold"
-    >
-      <BiSolidContact className="text-xl" />
-      Contact Us
-    </NavLink>
-
-    <NavLink 
-      to="/connect" 
-      className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold"
-    >
-      <BiLink className="text-xl" />
-      Connection
-    </NavLink>
-
-    
     <NavLink 
       to="/map" 
       className="text-white hover:text-red-500 mx-2 flex flex-col items-center font-bold"

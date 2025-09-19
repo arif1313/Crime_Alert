@@ -25,6 +25,7 @@ import AllUser from "./pages/Actionteam/AllUser";
 import ActionReport from "./pages/Reports/ActionReport";
 import AreaReportOvarviw from "./pages/Reports/AreaReportOvarviw";
 import ReportBarChart from "./pages/Reports/Charts/ReportBarChart";
+import Notification from "./pages/Notification/Notification";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +73,7 @@ export const router = createBrowserRouter([
           { path: "update/:id", element: <ReportUpdate /> },
           { path: "safety-tips", element: <SafetyTIps /> },
           { path: "connect", element: <Connection /> },
+          { path: "alert", element: <Notification /> },
         ],
       },
     ],
