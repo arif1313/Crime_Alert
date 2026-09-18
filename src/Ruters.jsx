@@ -26,8 +26,13 @@ import ActionReport from "./pages/Reports/ActionReport";
 import AreaReportOvarviw from "./pages/Reports/AreaReportOvarviw";
 import ReportBarChart from "./pages/Reports/Charts/ReportBarChart";
 import Notification from "./pages/Notification/Notification";
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 export const router = createBrowserRouter([
+  {
+    path: "/dashboard",
+    element: <Dashboard />,
+  },
   {
     path: "/",
     element: <Main />,
