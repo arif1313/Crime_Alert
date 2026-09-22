@@ -1,26 +1,24 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { useAuth } from "../Auth/AuthContext";
+import { searchByUserId, updateLocalUser } from "../../Api/LolacUserApi";
 
 const Aboutme = () => {
   const [localUserdata, setLocalUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [backupData, setBackupData] = useState(null);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
   const { user } = useAuth();
 
   useEffect(() => {
     const loadData = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:5000/api/v1/local-user/search/userId?userId=${user?._id}`
-        );
-        const data = await res.json();
-        if (data.success && data.data) {
-          setLocalUser(data.data);
-        }
+        const response = await searchByUserId(user._id);
+        if (response.success && response.data) setLocalUser(response.data);
       } catch (err) {
-        console.error("❌ Error fetching local user:", err);
+        console.error("Error fetching local user:", err);
       } finally {
         setLoading(false);
       }
@@ -40,8 +38,23 @@ const Aboutme = () => {
   };
 
   const handleConfirmClick = () => {
-    console.log("✅ Update API call here:", localUserdata);
-    setIsEditing(false);
+    const saveProfile = async () => {
+      setSaving(true);
+      setMessage("");
+      const response = await updateLocalUser(localUserdata._id, {
+        contactNumber: localUserdata.contactNumber,
+        address: localUserdata.address,
+      });
+      if (response.success) {
+        setLocalUser(response.data || localUserdata);
+        setIsEditing(false);
+        setMessage("Profile updated successfully.");
+      } else {
+        setMessage(response.message || "Profile update failed.");
+      }
+      setSaving(false);
+    };
+    saveProfile();
   };
 
   const handleCancelClick = () => {
@@ -129,9 +142,10 @@ const Aboutme = () => {
               <>
                 <button
                   onClick={handleConfirmClick}
+                  disabled={saving}
                   className="rounded-lg bg-emerald-500 px-6 py-2 text-sm font-semibold text-white shadow-md hover:bg-emerald-600"
                 >
-                  Save
+                  {saving ? "Saving..." : "Save"}
                 </button>
                 <button
                   onClick={handleCancelClick}
@@ -142,6 +156,7 @@ const Aboutme = () => {
               </>
             )}
           </div>
+          {message && <p className={`mt-4 text-center text-sm ${message.includes("successfully") ? "text-emerald-400" : "text-red-400"}`}>{message}</p>}
         </div>
       )}
       {!loading && !localUserdata && <div className="rounded-2xl border border-dashed border-white/10 bg-[#12121c] p-12 text-center"><h2 className="font-bold text-white">Profile details unavailable</h2><p className="mt-2 text-sm text-gray-500">We could not load your profile information right now.</p></div>}
