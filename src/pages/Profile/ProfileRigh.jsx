@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 
-const ProfileRigh = ({ role = "localPolice" }) => (
-  <div className="w-full">
+const ProfileRigh = ({ role = "localUser" }) => (
+  <div className="w-full lg:sticky lg:top-24">
     <div className="rounded-2xl border border-white/5 bg-[#0b0b12] p-4 shadow-xl">
       <p className="mb-1 text-[11px] font-bold uppercase tracking-[0.18em] text-red-500">Workspace</p>
       <h3 className="mb-5 text-lg font-bold text-white">Profile tools</h3>
@@ -103,6 +103,6 @@ const ProfileRigh = ({ role = "localPolice" }) => (
 
 );
 ProfileRigh.propTypes = {
-  role: PropTypes.string.isRequired, // ✅ add props validation
+  role: PropTypes.string,
 };
 export default ProfileRigh;

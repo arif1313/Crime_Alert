@@ -242,18 +242,11 @@ const handleAction = async () => {
                   {deleting ? "Deleting..." : "Delete"}
                 </button>
                 
-               {report?.ActionTaken.length > 0 ? (
+               {report?.ActionTaken?.length > 0 ? (
   <button className="btn btn-xs bg-green-100 border-green-500 text-green-700">
     ✅ Action Taken
   </button>
-) : (
-  <button
-    className="btn btn-xs bg-yellow-100 border-yellow-500 text-yellow-700"
-    onClick={() => setShowActionModal(true)}
-  >
-    🚓 Take Action
-  </button>
-)}
+              ) : null}
               </>
             )}
 
@@ -283,12 +276,12 @@ const handleAction = async () => {
 
              <button
   className={`btn btn-xs border ${
-    report?.ActionTaken.length>0? 
+    report?.ActionTaken?.length>0? 
        "bg-green-200 border-green-600 text-green-800"
       : "bg-red-200 border-red-600 text-red-800"
   }`}
 >
-  Action {report?.ActionTaken.length>0? "on" : "off"}
+  Action {report?.ActionTaken?.length>0? "on" : "off"}
 </button>
 
             </>
@@ -316,12 +309,28 @@ const handleAction = async () => {
               </>
             )}
 
-          <button
-            className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]"
-            onClick={() => navigate(`/profile/report/${report._id}`)}
-          >
-            See More
-          </button>
+          <div className="ml-auto flex flex-wrap gap-2">
+            <button
+              className="btn btn-xs bg-[#ffe1e2] border-[#fc6d74] text-[#47080b]"
+              onClick={() => navigate(`/profile/report/${report._id}`)}
+            >
+              View report
+            </button>
+            {(location.pathname === "/profile/reports" || location.pathname === "/") && (
+              report?.ActionTaken?.length > 0 ? (
+                <button className="btn btn-xs border-green-500 bg-green-100 text-green-700">
+                  Action taken
+                </button>
+              ) : (
+                <button
+                  className="btn btn-xs border-yellow-500 bg-yellow-100 text-yellow-700"
+                  onClick={() => setShowActionModal(true)}
+                >
+                  Take action
+                </button>
+              )
+            )}
+          </div>
          
         </div>
       </div>

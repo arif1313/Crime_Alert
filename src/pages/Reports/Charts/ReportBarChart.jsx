@@ -24,7 +24,6 @@ const redShades = [
 const categories = ["murder", "robbery", "fraud", "assault", "theft", "arson"];
 
 const ReportBarChart = () => {
-  const [reports, setReports] = useState([]);
   const [chartData, setChartData] = useState([]);
   const [totals, setTotals] = useState({});
   const { user } = useContext(AuthContext);
@@ -46,8 +45,6 @@ const ReportBarChart = () => {
         if (!reportRes.success) return;
 
         const fetchedReports = reportRes.data;
-        setReports(fetchedReports);
-
         const counts = categories.reduce((acc, cat) => {
           acc[cat] = 0;
           return acc;
@@ -75,28 +72,25 @@ const ReportBarChart = () => {
   }, [user?._id]);
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6">
+    <div className="min-h-full space-y-6 bg-[#0b0b12] p-5 text-white sm:p-8">
       {/* 🟢 Big Heading */}
       <h1
-        className="text-3xl md:text-4xl font-extrabold text-center"
+        className="text-left text-3xl font-black tracking-tight text-white md:text-4xl"
         style={{
-          background: "linear-gradient(90deg, #ff4d4f, #ff7a7a)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
+          color: "#ffffff",
         }}
       >
         Reports in Your Area
       </h1>
 
       {/* 🟢 Stats Section */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {categories.map((cat, i) => (
           <div
             key={cat}
-            className="rounded-lg shadow p-3 text-center transition hover:scale-105"
-            style={{ backgroundColor: `${redShades[i % redShades.length]}20` }}
+            className="rounded-xl border border-white/5 bg-[#12121c] p-4 text-left shadow-lg transition hover:border-red-500/30"
           >
-            <div className="text-xs font-medium text-gray-700 capitalize">
+            <div className="text-xs font-medium capitalize text-gray-500">
               {cat}
             </div>
             <div
@@ -110,8 +104,8 @@ const ReportBarChart = () => {
       </div>
 
       {/* 🟢 Chart Section */}
-      <div className="bg-white shadow-lg rounded-xl p-4">
-        <h2 className="text-lg font-semibold mb-4 text-gray-700">
+      <div className="rounded-2xl border border-white/5 bg-[#12121c] p-5 shadow-xl">
+        <h2 className="mb-4 text-lg font-semibold text-white">
           Reports by Category
         </h2>
         {chartData.length > 0 && (
@@ -121,14 +115,15 @@ const ReportBarChart = () => {
                 data={chartData}
                 margin={{ top: 20, right: 30, left: 0, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                <XAxis dataKey="category" tick={{ fill: "#374151" }} />
-                <YAxis allowDecimals={false} tick={{ fill: "#374151" }} />
+                <CartesianGrid strokeDasharray="3 3" stroke="#292936" />
+                <XAxis dataKey="category" tick={{ fill: "#9ca3af" }} />
+                <YAxis allowDecimals={false} tick={{ fill: "#9ca3af" }} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "white",
+                    backgroundColor: "#12121c",
                     borderRadius: "8px",
-                    border: "1px solid #e5e7eb",
+                    border: "1px solid #ffffff1a",
+                    color: "#ffffff",
                   }}
                 />
                 <Bar dataKey="count" name="Reports" radius={[6, 6, 0, 0]}>

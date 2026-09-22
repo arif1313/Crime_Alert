@@ -51,6 +51,7 @@ const Aboutme = () => {
 
   return (
     <div className="min-h-full w-full bg-[#0b0b12] p-5 sm:p-8">
+      {loading && <div className="rounded-2xl border border-white/5 bg-[#12121c] p-12 text-center text-sm text-gray-500">Loading profile details...</div>}
       {!loading && localUserdata && (
         <div className="w-full rounded-2xl border border-white/5 bg-[#12121c] p-6 shadow-xl sm:p-8">
           {/* Profile Header */}
@@ -143,6 +144,7 @@ const Aboutme = () => {
           </div>
         </div>
       )}
+      {!loading && !localUserdata && <div className="rounded-2xl border border-dashed border-white/10 bg-[#12121c] p-12 text-center"><h2 className="font-bold text-white">Profile details unavailable</h2><p className="mt-2 text-sm text-gray-500">We could not load your profile information right now.</p></div>}
     </div>
   );
 };

@@ -1,5 +1,5 @@
-import ReportExplorer from "../Reports/ReportExplorer";
+import ProfileReports from "./ProfileReports";
 
-const FrofileFeed = () => <ReportExplorer mineOnly />;
+const FrofileFeed = () => <ProfileReports />;
 
 export default FrofileFeed;
