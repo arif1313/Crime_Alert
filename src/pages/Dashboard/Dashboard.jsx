@@ -16,6 +16,7 @@ const Dashboard = () => {
   const { user } = useAuth();
   const firstName = user?.name?.split(" ")[0] || "there";
   const [reports, setReports] = useState([]);
+  const [visibleReports, setVisibleReports] = useState([]);
   const [reportsLoading, setReportsLoading] = useState(true);
   const [reportsError, setReportsError] = useState(false);
 
@@ -25,6 +26,7 @@ const Dashboard = () => {
         const response = await getAllReports();
         if (response.success) {
           setReports(response.data || []);
+          setVisibleReports(response.data || []);
         } else {
           setReportsError(true);
         }
@@ -44,7 +46,7 @@ const Dashboard = () => {
       <DashboardSidebar />
 
       <div className="flex-1 min-w-0">
-        <DashboardTopbar />
+        <DashboardTopbar reports={reports} onSearchResults={setVisibleReports} />
 
         <div className="p-5 sm:p-8 grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-6">
           {/* Main column */}
@@ -74,7 +76,7 @@ const Dashboard = () => {
 
             <div className="mt-6">
               <RecentCrimesList
-                reports={reports}
+                reports={visibleReports}
                 loading={reportsLoading}
                 hasError={reportsError}
               />

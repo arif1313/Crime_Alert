@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 import { FiChevronRight, FiCalendar, FiMapPin } from "react-icons/fi";
 
+const statusStyles = {
+  pending: "border-amber-500/30 bg-amber-500/10 text-amber-400",
+  reviewing: "border-blue-500/30 bg-blue-500/10 text-blue-400",
+  resolved: "border-emerald-500/30 bg-emerald-500/10 text-emerald-400",
+};
+
 const RecentCrimeCard = ({ crime, onClick }) => (
   <button onClick={onClick} className="w-full text-left flex gap-4 bg-[#12121c] hover:bg-[#161622] transition-colors rounded-2xl border border-white/5 p-3 sm:p-4">
     <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden">
@@ -17,6 +23,9 @@ const RecentCrimeCard = ({ crime, onClick }) => (
       <div className="flex items-start justify-between gap-2">
         <span className="text-[11px] font-medium px-2 py-0.5 rounded-md border border-red-500/30 bg-red-500/15 text-red-400">
           {crime.reportType || "Crime"}
+        </span>
+        <span className={`text-[11px] font-semibold capitalize px-2 py-0.5 rounded-md border ${statusStyles[crime.status?.toLowerCase()] || "border-white/10 bg-white/5 text-gray-400"}`}>
+          {crime.status || "Unknown"}
         </span>
       </div>
 
@@ -53,6 +62,7 @@ RecentCrimeCard.propTypes = {
     reportType: PropTypes.string,
     reportLocation: PropTypes.string,
     reportDescription: PropTypes.string,
+    status: PropTypes.string,
     createdAt: PropTypes.string,
   }).isRequired,
   onClick: PropTypes.func.isRequired,

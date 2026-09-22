@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiCalendar, FiEdit2, FiMapPin, FiPlus, FiSearch, FiTrash2 } from "react-icons/fi";
+import { FiCalendar, FiEdit2, FiMapPin, FiPlus, FiSearch, FiTrash2, FiX } from "react-icons/fi";
 import PropTypes from "prop-types";
 import { useAuth } from "../Auth/AuthContext";
 import { getAllReports, softDeleteReport } from "../../Api/ReportApi";
@@ -44,6 +44,14 @@ const ReportExplorer = ({ mineOnly = false }) => {
     setReports((current) => current.filter((report) => report._id !== id));
   };
 
+  const hasFilters = query || area !== "all" || category !== "all" || status !== "all";
+  const clearFilters = () => {
+    setQuery("");
+    setArea("all");
+    setCategory("all");
+    setStatus("all");
+  };
+
   return (
     <main className="min-h-screen bg-[#f6f7f9] px-4 py-8 text-slate-900 sm:px-8 lg:px-12">
       <div className="mx-auto max-w-7xl">
@@ -59,8 +67,10 @@ const ReportExplorer = ({ mineOnly = false }) => {
         <section className="mb-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="relative mb-4">
             <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
-            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search title, description, location or category" className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-4 text-sm outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10" />
+            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search title, description, location or category" className="w-full rounded-xl border border-slate-200 bg-slate-50 py-3 pl-11 pr-12 text-sm outline-none transition focus:border-red-400 focus:bg-white focus:ring-4 focus:ring-red-500/10" />
+            {hasFilters && <button type="button" onClick={clearFilters} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-400 hover:bg-slate-200 hover:text-slate-900" aria-label="Clear all filters"><FiX /></button>}
           </div>
+          {hasFilters && <div className="mb-1 flex flex-wrap items-center gap-2 text-xs"><span className="font-semibold text-slate-500">Active filters:</span>{query && <span className="rounded-full bg-red-50 px-2.5 py-1 text-red-600">“{query}”</span>}{area !== "all" && <span className="rounded-full bg-slate-100 px-2.5 py-1 text-slate-600">Area: {area}</span>}{category !== "all" && <span className="rounded-full bg-slate-100 px-2.5 py-1 capitalize text-slate-600">Type: {category}</span>}{status !== "all" && <span className="rounded-full bg-slate-100 px-2.5 py-1 capitalize text-slate-600">Status: {status}</span>}</div>}
           <div className="grid gap-3 sm:grid-cols-3">
             <select value={area} onChange={(event) => setArea(event.target.value)} className="rounded-xl border border-slate-200 bg-white px-3 py-3 text-sm text-slate-600 outline-none focus:border-red-400">
               {areas.map((item) => <option key={item} value={item}>{item === "all" ? "All areas" : item}</option>)}

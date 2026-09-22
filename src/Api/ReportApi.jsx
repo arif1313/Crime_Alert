@@ -174,8 +174,28 @@ export const liveSearchByAddress = async (keyword) => {
 };
 // ✅ Combined search (type + title + location একসাথে)
 export const combinedSearch = async (params) => {
-  const res = await api.get("/report/combined/search", { params });
-  return res.data;
+  try {
+    const res = await api.get("/report/combined/search", { params });
+    return res.data;
+  } catch {
+    const normalized = Object.fromEntries(
+      Object.entries(params).filter(([, value]) => value)
+    );
+    const data = readDemoReports().filter((report) => {
+      const haystack = [
+        report.reportTitle,
+        report.reportDescription,
+        report.reportLocation,
+        report.reportType,
+      ].join(" ").toLowerCase();
+      return (!normalized.q || haystack.includes(normalized.q.toLowerCase())) &&
+        (!normalized.reportTitle || haystack.includes(normalized.reportTitle.toLowerCase())) &&
+        (!normalized.reportLocation || report.reportLocation === normalized.reportLocation) &&
+        (!normalized.reportType || report.reportType?.toLowerCase() === normalized.reportType.toLowerCase()) &&
+        (!normalized.status || report.status?.toLowerCase() === normalized.status.toLowerCase());
+    });
+    return { success: true, data, demo: true };
+  }
 };
 // ✅ Search deleted reports by reporterId
 export const searchDeletedByReporterId = async (reporterId) => {
