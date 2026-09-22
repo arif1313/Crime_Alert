@@ -50,64 +50,64 @@ const Aboutme = () => {
   };
 
   return (
-    <div className="w-full flex justify-center bg-gradient-to-br from-pink-100 via-white to-pink-50 min-h-screen">
+    <div className="min-h-full w-full bg-[#0b0b12] p-5 sm:p-8">
       {!loading && localUserdata && (
-        <div className="w-full  bg-white rounded-2xl shadow-xl p-8 ">
+        <div className="w-full rounded-2xl border border-white/5 bg-[#12121c] p-6 shadow-xl sm:p-8">
           {/* Profile Header */}
-          <div className="flex flex-col items-center border-b pb-6">
+          <div className="flex flex-col items-center border-b border-white/5 pb-6">
             <img
               src={`http://localhost:5000${localUserdata?.profileImage}`}
               alt="Profile"
-              className="w-50 h-50  border-4 border-pink-300 shadow-lg object-cover"
+              className="h-32 w-32 rounded-full border-4 border-red-500/30 object-cover shadow-lg"
             />
-            <h2 className="mt-4 font-bold text-2xl text-gray-800">
+            <h2 className="mt-4 text-2xl font-bold text-white">
               {localUserdata?.firstName} {localUserdata?.lastName}
             </h2>
        
-             <span className="indicator-item badge badge-secondary">{user?.role}</span>
-            <p className="text-gray-500 text-sm">@{user?.email}</p>
+             <span className="mt-2 rounded-full border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-red-400">{user?.role}</span>
+            <p className="mt-2 text-sm text-gray-500">{user?.email}</p>
           </div>
 
           {/* Information Section */}
           <div className="mt-8 space-y-6">
-            <h3 className="font-bold text-xl text-gray-700 border-b pb-2">
+            <h3 className="border-b border-white/5 pb-2 text-lg font-bold text-white">
               Personal Information
             </h3>
 
             {/* Contact */}
-            <div className="flex justify-between items-center">
-              <span className="font-semibold">📞 Contact</span>
+            <div className="flex items-center justify-between border-b border-white/5 pb-4">
+              <span className="font-semibold text-gray-400">Contact</span>
               {isEditing ? (
                 <input
                   name="contactNumber"
                   value={localUserdata?.contactNumber || ""}
                   onChange={handleChange}
-                  className="border px-3 py-1 rounded w-1/2"
+                  className="w-1/2 rounded-lg border border-white/10 bg-[#0b0b12] px-3 py-2 text-white"
                 />
               ) : (
-                <span>{localUserdata?.contactNumber || "Not provided"}</span>
+                <span className="text-gray-300">{localUserdata?.contactNumber || "Not provided"}</span>
               )}
             </div>
 
             {/* Location */}
-            <div className="flex justify-between items-center">
-              <span className="font-semibold">📍 Location</span>
+            <div className="flex items-center justify-between border-b border-white/5 pb-4">
+              <span className="font-semibold text-gray-400">Location</span>
               {isEditing ? (
                 <input
                   name="address"
                   value={localUserdata?.address || ""}
                   onChange={handleChange}
-                  className="border px-3 py-1 rounded w-1/2"
+                  className="w-1/2 rounded-lg border border-white/10 bg-[#0b0b12] px-3 py-2 text-white"
                 />
               ) : (
-                <span>{localUserdata?.address || "Not set"}</span>
+                <span className="text-gray-300">{localUserdata?.address || "Not set"}</span>
               )}
             </div>
 
             {/* DOB */}
-            <div className="flex justify-between items-center">
-              <span className="font-semibold">🎂 Date of Birth</span>
-              <span>
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-gray-400">Date of Birth</span>
+              <span className="text-gray-300">
                 {localUserdata?.dateOfBirth
                   ? new Date(localUserdata.dateOfBirth).toLocaleDateString()
                   : "Not available"}
@@ -120,7 +120,7 @@ const Aboutme = () => {
             {!isEditing ? (
               <button
                 onClick={handleUpdateClick}
-                className="px-6 py-2 bg-pink-500 hover:bg-pink-600 text-white font-semibold rounded-lg shadow-md"
+                className="rounded-lg bg-red-500 px-6 py-2 text-sm font-semibold text-white shadow-md hover:bg-red-600"
               >
                 Edit Profile
               </button>
@@ -128,13 +128,13 @@ const Aboutme = () => {
               <>
                 <button
                   onClick={handleConfirmClick}
-                  className="px-6 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md"
+                  className="rounded-lg bg-emerald-500 px-6 py-2 text-sm font-semibold text-white shadow-md hover:bg-emerald-600"
                 >
                   Save
                 </button>
                 <button
                   onClick={handleCancelClick}
-                  className="px-6 py-2 bg-gray-400 hover:bg-gray-500 text-white font-semibold rounded-lg shadow-md"
+                  className="rounded-lg bg-white/10 px-6 py-2 text-sm font-semibold text-gray-200 shadow-md hover:bg-white/20"
                 >
                   Cancel
                 </button>

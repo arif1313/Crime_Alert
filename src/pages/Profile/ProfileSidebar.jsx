@@ -8,7 +8,6 @@ const ProfileSidebar = ({ userId }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [backupData, setBackupData] = useState(null);
  const { user } = useAuth();
- console.log('user',user)
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -52,68 +51,69 @@ const ProfileSidebar = ({ userId }) => {
   };
 
   return (
-    <div className=" p-2 space-y-4 ">
+    <div className="space-y-4">
       {!loading && localUserdata && (
-        <div className="bg-gradient-to-b from-pink-200 to-pink-100 shadow-lg rounded-2xl p-6 text-center lg:min-h-screen">
+        <div className="rounded-2xl border border-white/5 bg-[#0b0b12] p-5 text-center shadow-xl">
           {/* Profile Image */}
           <img
             src={`http://localhost:5000${localUserdata?.profileImage}` }
             alt="Profile"
-            className="w-28 h-28 mx-auto rounded-full border-4 border-white shadow-md mb-3"
+            className="mx-auto mb-3 h-24 w-24 rounded-full border-4 border-red-500/40 object-cover shadow-lg"
           />
 
           {/* Name + UserId */}
-          <h2 className="font-bold text-xl text-gray-800">
+          <h2 className="text-xl font-bold text-white">
             {localUserdata?.firstName} {localUserdata?.lastName}
           </h2>
-           <span className="indicator-item badge badge-secondary text-black">{user?.role}</span>
+           <span className="mt-2 inline-block rounded-full border border-red-500/20 bg-red-500/10 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-red-400">{user?.role}</span>
 
           {/* Info Section */}
-          <div className="mt-6 space-y-4 text-left bg-white/60 p-4 rounded-lg shadow-inner">
-            <h3 className="font-bold text-lg text-center text-gray-700">
+          <div className="mt-6 space-y-4 rounded-xl border border-white/5 bg-[#12121c] p-4 text-left">
+            <h3 className="text-center text-sm font-bold uppercase tracking-wider text-gray-400">
               Information
             </h3>
 
             {/* Contact Number */}
-            <div className="flex justify-between items-center border-b pb-2">
-              <span className="font-semibold">📞 Contact:</span>
+              <div className="flex items-center justify-between border-b border-white/5 pb-2">
+              <span className="font-semibold text-gray-400">Contact</span>
               {isEditing ? (
                 <input
                   name="contactNumber"
                   value={localUserdata?.contactNumber || ""}
                   onChange={handleChange}
-                  className="border px-2 py-1 rounded"
+                  className="w-1/2 rounded-lg border border-white/10 bg-[#0b0b12] px-2 py-1 text-white"
                 />
               ) : (
-                <span>{localUserdata?.contactNumber}</span>
+                <span className="text-right text-sm text-gray-300">{localUserdata?.contactNumber || "Not set"}</span>
               )}
             </div>
 
             {/* Email */}
-            <div className="flex justify-between items-center border-b pb-2">
-              <span className="font-semibold">📧 Email:{user?.email}</span>
+            <div className="flex items-center justify-between border-b border-white/5 pb-2">
+              <span className="font-semibold text-gray-400">Email</span>
+              <span className="max-w-[150px] truncate text-right text-sm text-gray-300">{user?.email || "Not set"}</span>
        
             </div>
 
             {/* Location */}
-            <div className="flex justify-between items-center border-b pb-2">
-              <span className="font-semibold">📍 Location:</span>
+            <div className="flex items-center justify-between border-b border-white/5 pb-2">
+              <span className="font-semibold text-gray-400">Location</span>
               {isEditing ? (
                 <input
                   name="currentLocation"
                   value={localUserdata?.address || ""}
                   onChange={handleChange}
-                  className="border px-2 py-1 rounded"
+                  className="w-1/2 rounded-lg border border-white/10 bg-[#0b0b12] px-2 py-1 text-white"
                 />
               ) : (
-                <span>{localUserdata?.address || "Not set"}</span>
+                <span className="text-right text-sm text-gray-300">{localUserdata?.address || "Not set"}</span>
               )}
             </div>
 
             {/* Date of Birth */}
-            <div className="flex justify-between items-center">
-              <span className="font-semibold">🎂 Date of Birth:</span>
-              <span>
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-gray-400">Date of birth</span>
+              <span className="text-sm text-gray-300">
                 {localUserdata?.dateOfBirth
                   ? new Date(localUserdata.dateOfBirth).toLocaleDateString()
                   : "Not available"}
@@ -126,7 +126,7 @@ const ProfileSidebar = ({ userId }) => {
             {!isEditing ? (
               <button
                 onClick={handleUpdateClick}
-                className="px-5 py-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-lg shadow-md"
+                className="w-full rounded-lg bg-red-500 px-5 py-2 text-sm font-semibold text-white shadow-md hover:bg-red-600"
               >
                 Update
               </button>
@@ -134,13 +134,13 @@ const ProfileSidebar = ({ userId }) => {
               <>
                 <button
                   onClick={handleConfirmClick}
-                  className="px-5 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-lg shadow-md"
+                  className="rounded-lg bg-emerald-500 px-5 py-2 text-sm font-semibold text-white shadow-md hover:bg-emerald-600"
                 >
                   Confirm
                 </button>
                 <button
                   onClick={handleCancelClick}
-                  className="px-5 py-2 bg-gray-400 hover:bg-gray-500 text-white font-semibold rounded-lg shadow-md"
+                  className="rounded-lg bg-white/10 px-5 py-2 text-sm font-semibold text-gray-200 shadow-md hover:bg-white/20"
                 >
                   Cancel
                 </button>
