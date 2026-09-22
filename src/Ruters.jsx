@@ -27,6 +27,8 @@ import AreaReportOvarviw from "./pages/Reports/AreaReportOvarviw";
 import ReportBarChart from "./pages/Reports/Charts/ReportBarChart";
 import Notification from "./pages/Notification/Notification";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import EmergencyHelp from "./pages/Emergency/EmergencyHelp";
+import Settings from "./pages/Settings/Settings";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +54,8 @@ export const router = createBrowserRouter([
       { path: "signup/form", element: <Form /> },
       { path: "login", element: <Login /> },
       { path: "map", element: <CrimeHeatmapFeature /> },
+      { path: "emergency", element: <EmergencyHelp /> },
+      { path: "settings", element: <Settings /> },
 
       {
         element: <ProtectedRoute />,

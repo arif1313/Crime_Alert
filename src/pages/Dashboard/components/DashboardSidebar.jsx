@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import {
   FiHome,
   FiPlusCircle,
@@ -12,6 +13,7 @@ import {
   FiLogOut,
 } from "react-icons/fi";
 import logo from "../../../assets/home/icons/logo.png";
+import { useAuth } from "../../Auth/AuthContext";
 
 const navItem =
   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors";
@@ -29,13 +31,32 @@ const NavItem = ({ to, icon: Icon, children, end }) => (
   </NavLink>
 );
 
+NavItem.propTypes = {
+  to: PropTypes.string.isRequired,
+  icon: PropTypes.elementType.isRequired,
+  children: PropTypes.node.isRequired,
+  end: PropTypes.bool,
+};
+
 const SectionLabel = ({ children }) => (
   <p className="px-3 pt-5 pb-2 text-[11px] tracking-wider text-gray-500">
     {children}
   </p>
 );
 
+SectionLabel.propTypes = {
+  children: PropTypes.node.isRequired,
+};
+
 const DashboardSidebar = () => {
+  const navigate = useNavigate();
+  const { logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <aside className="hidden lg:flex flex-col w-64 shrink-0 bg-[#0b0b12] border-r border-white/5 h-screen sticky top-0 px-4 py-5">
       {/* Logo */}
@@ -53,10 +74,11 @@ const DashboardSidebar = () => {
         <NavItem to="/report" icon={FiPlusCircle}>
           Report a Crime
         </NavItem>
-        <NavItem to="/emergency" icon={FiPhoneCall}>
+        <a href="tel:999" className={`${navItem} ${idleCls}`}>
+          <FiPhoneCall className="text-lg shrink-0" />
           Emergency Call
-        </NavItem>
-        <NavItem to="/live-location" icon={FiMapPin}>
+        </a>
+        <NavItem to="/map" icon={FiMapPin}>
           Live Location
         </NavItem>
 
@@ -64,7 +86,7 @@ const DashboardSidebar = () => {
         <NavItem to="/map" icon={FiRadio}>
           Crime in My Area
         </NavItem>
-        <NavItem to="/area-history" icon={FiClock}>
+        <NavItem to="/profile/areaReport" icon={FiClock}>
           Area History
         </NavItem>
         <NavItem to="/safety-tips" icon={FiShield}>
@@ -78,9 +100,10 @@ const DashboardSidebar = () => {
         <NavItem to="/settings" icon={FiSettings}>
           Settings
         </NavItem>
-        <NavItem to="/logout" icon={FiLogOut}>
+        <button type="button" onClick={handleLogout} className={`${navItem} ${idleCls} w-full`}>
+          <FiLogOut className="text-lg shrink-0" />
           Logout
-        </NavItem>
+        </button>
       </nav>
 
       {/* Emergency box */}

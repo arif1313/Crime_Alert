@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 import { FiChevronRight, FiCalendar, FiMapPin } from "react-icons/fi";
 
-const RecentCrimeCard = ({ crime }) => (
-  <button className="w-full text-left flex gap-4 bg-[#12121c] hover:bg-[#161622] transition-colors rounded-2xl border border-white/5 p-3 sm:p-4">
+const RecentCrimeCard = ({ crime, onClick }) => (
+  <button onClick={onClick} className="w-full text-left flex gap-4 bg-[#12121c] hover:bg-[#161622] transition-colors rounded-2xl border border-white/5 p-3 sm:p-4">
     <div className="w-28 h-28 sm:w-32 sm:h-32 shrink-0 rounded-xl overflow-hidden">
       <img
         src={crime.reportImage || "https://via.placeholder.com/300"}
@@ -44,9 +46,22 @@ const RecentCrimeCard = ({ crime }) => (
   </button>
 );
 
+RecentCrimeCard.propTypes = {
+  crime: PropTypes.shape({
+    reportImage: PropTypes.string,
+    reportTitle: PropTypes.string,
+    reportType: PropTypes.string,
+    reportLocation: PropTypes.string,
+    reportDescription: PropTypes.string,
+    createdAt: PropTypes.string,
+  }).isRequired,
+  onClick: PropTypes.func.isRequired,
+};
+
 const PAGE_SIZE = 3;
 
 const RecentCrimesList = ({ reports, loading, hasError }) => {
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(PAGE_SIZE);
   const items = reports.slice(0, visible);
   const hasMore = visible < reports.length;
@@ -57,7 +72,7 @@ const RecentCrimesList = ({ reports, loading, hasError }) => {
         <h2 className="text-white font-semibold text-lg">
           Recent Crimes in Your Area
         </h2>
-        <button className="text-sm text-gray-400 hover:text-white flex items-center gap-1">
+        <button onClick={() => navigate("/profile/reports")} className="text-sm text-gray-400 hover:text-white flex items-center gap-1">
           View All <FiChevronRight className="text-xs" />
         </button>
       </div>
@@ -71,7 +86,7 @@ const RecentCrimesList = ({ reports, loading, hasError }) => {
       ) : (
         <div className="flex flex-col gap-3">
           {items.map((crime) => (
-            <RecentCrimeCard key={crime._id} crime={crime} />
+            <RecentCrimeCard key={crime._id} crime={crime} onClick={() => navigate(`/profile/report/${crime._id}`)} />
           ))}
         </div>
       )}
@@ -88,6 +103,12 @@ const RecentCrimesList = ({ reports, loading, hasError }) => {
       )}
     </div>
   );
+};
+
+RecentCrimesList.propTypes = {
+  reports: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loading: PropTypes.bool.isRequired,
+  hasError: PropTypes.bool.isRequired,
 };
 
 export default RecentCrimesList;

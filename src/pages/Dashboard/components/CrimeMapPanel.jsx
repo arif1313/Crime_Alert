@@ -4,6 +4,7 @@ import {
   FiMinus,
   FiNavigation,
 } from "react-icons/fi";
+import { useState } from "react";
 import { crimeMarkers, legendTypes } from "../mockData";
 
 const markerColor = {
@@ -16,6 +17,21 @@ const markerColor = {
 // Static placeholder map. Swap the background + markers for the real
 // Google Maps / Leaflet integration (see CrimeHeatmap folder) later.
 const CrimeMapPanel = () => {
+  const [zoom, setZoom] = useState(1);
+  const [showFilters, setShowFilters] = useState(false);
+  const [visibleTypes, setVisibleTypes] = useState(
+    () => new Set(crimeMarkers.map((marker) => marker.type))
+  );
+
+  const toggleType = (type) => {
+    setVisibleTypes((current) => {
+      const next = new Set(current);
+      if (next.has(type)) next.delete(type);
+      else next.add(type);
+      return next;
+    });
+  };
+
   return (
     <div className="relative w-full h-[340px] sm:h-[420px] rounded-2xl overflow-hidden border border-white/5 bg-[#0e0e18]">
       {/* fake map grid background */}
@@ -27,7 +43,10 @@ const CrimeMapPanel = () => {
           backgroundSize: "36px 36px",
         }}
       />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#101020]/40 via-transparent to-[#0e0e18]" />
+      <div
+        className="absolute inset-0 bg-gradient-to-br from-[#101020]/40 via-transparent to-[#0e0e18] transition-transform duration-200"
+        style={{ transform: `scale(${zoom})` }}
+      />
 
       {/* street label flourishes */}
       <span className="absolute top-6 left-10 text-[11px] text-gray-500">
@@ -55,25 +74,35 @@ const CrimeMapPanel = () => {
         <span
           key={m.id}
           style={{ top: m.top, left: m.left }}
-          className={`absolute -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full ring-2 ring-black/40 ${markerColor[m.type]}`}
+          className={`absolute -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full ring-2 ring-black/40 ${markerColor[m.type]} ${visibleTypes.has(m.type) ? "" : "hidden"}`}
         />
       ))}
 
       {/* controls */}
       <div className="absolute top-4 right-4 flex flex-col gap-2">
-        <button className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#14141f]/90 border border-white/10 text-gray-300 hover:text-white">
+        <button onClick={() => setShowFilters((visible) => !visible)} className="w-9 h-9 flex items-center justify-center rounded-lg bg-[#14141f]/90 border border-white/10 text-gray-300 hover:text-white" aria-label="Filter crime markers">
           <FiFilter />
         </button>
+        {showFilters && (
+          <div className="absolute right-0 top-11 w-36 rounded-lg border border-white/10 bg-[#14141f] p-2 shadow-xl">
+            {legendTypes.filter((item) => item.type !== "you").map((item) => (
+              <label key={item.type} className="flex items-center gap-2 px-1 py-1 text-xs text-gray-300">
+                <input type="checkbox" checked={visibleTypes.has(item.type)} onChange={() => toggleType(item.type)} />
+                {item.label}
+              </label>
+            ))}
+          </div>
+        )}
       </div>
       <div className="absolute right-4 bottom-16 flex flex-col rounded-lg overflow-hidden border border-white/10">
-        <button className="w-9 h-9 flex items-center justify-center bg-[#14141f]/90 text-gray-300 hover:text-white border-b border-white/10">
+          <button onClick={() => setZoom((current) => Math.min(current + 0.1, 1.4))} className="w-9 h-9 flex items-center justify-center bg-[#14141f]/90 text-gray-300 hover:text-white border-b border-white/10" aria-label="Zoom in">
           <FiPlus />
         </button>
-        <button className="w-9 h-9 flex items-center justify-center bg-[#14141f]/90 text-gray-300 hover:text-white">
+        <button onClick={() => setZoom((current) => Math.max(current - 0.1, 1))} className="w-9 h-9 flex items-center justify-center bg-[#14141f]/90 text-gray-300 hover:text-white" aria-label="Zoom out">
           <FiMinus />
         </button>
       </div>
-      <button className="absolute right-4 bottom-4 w-9 h-9 flex items-center justify-center rounded-lg bg-[#14141f]/90 border border-white/10 text-gray-300 hover:text-white">
+      <button onClick={() => setZoom(1)} className="absolute right-4 bottom-4 w-9 h-9 flex items-center justify-center rounded-lg bg-[#14141f]/90 border border-white/10 text-gray-300 hover:text-white" aria-label="Reset map view">
         <FiNavigation />
       </button>
 

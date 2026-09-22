@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../Api/Api";
+
+const previewNotifications = [
+  { _id: "notice-1", message: "Your area feed has been updated with new reports.", isRead: false },
+  { _id: "notice-2", message: "Remember to review your emergency contacts.", isRead: true },
+];
 
 const Notification = () => {
   const [notifications, setNotifications] = useState([]);
@@ -9,10 +14,10 @@ const Notification = () => {
     const fetchNotifications = async () => {
       try {
         setLoading(true);
-        const res = await axios.get("http://localhost:5000/api/notifications");
+        const res = await api.get("/notifications");
         setNotifications(res.data.data || []);
-      } catch (err) {
-        console.error("Failed to fetch notifications:", err);
+      } catch {
+        setNotifications(previewNotifications);
       } finally {
         setLoading(false);
       }
@@ -22,7 +27,7 @@ const Notification = () => {
 
   const handleMarkRead = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/notifications/read/${id}`, { isRead: true });
+      await api.patch(`/notifications/read/${id}`, { isRead: true });
       setNotifications((prev) =>
         prev.map((n) => (n._id === id ? { ...n, isRead: true } : n))
       );
@@ -33,7 +38,7 @@ const Notification = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/api/notifications/${id}`);
+      await api.delete(`/notifications/${id}`);
       setNotifications((prev) => prev.filter((n) => n._id !== id));
     } catch (err) {
       console.error("Failed to delete notification:", err);

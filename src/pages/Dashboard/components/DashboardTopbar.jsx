@@ -31,12 +31,12 @@ const DashboardTopbar = () => {
 
       <div className="flex-1" />
 
-      <button className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 text-gray-300">
+      <button onClick={() => navigate(user ? "/alert" : "/login")} className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-white/5 text-gray-300" aria-label="Open notifications">
         <FiBell className="text-lg" />
         <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-red-500" />
       </button>
 
-      <button className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-lg hover:bg-white/5">
+      <button onClick={() => navigate(user ? "/profile" : "/login")} className="flex items-center gap-2 pl-2 pr-1 py-1 rounded-lg hover:bg-white/5">
         <img
           src={avatar}
           alt={name}

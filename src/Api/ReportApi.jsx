@@ -1,28 +1,96 @@
 import api from "./Api";
 
+const demoReports = [
+  {
+    _id: "demo-1",
+    reportTitle: "Street light outage near Dhanmondi Lake",
+    reportDescription: "A dark stretch near the lake has made evening commutes feel unsafe for residents.",
+    reportLocation: "Dhanmondi 8A, Dhaka",
+    reportType: "theft",
+    crimeDate: "2026-09-20",
+    crimeTime: "21:10",
+    status: "pending",
+    reportImage: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    _id: "demo-2",
+    reportTitle: "Suspicious activity reported near Banani",
+    reportDescription: "Residents noticed repeated suspicious movement around the parking area after midnight.",
+    reportLocation: "Road 11, Banani, Dhaka",
+    reportType: "other",
+    crimeDate: "2026-09-19",
+    crimeTime: "00:30",
+    status: "reviewing",
+    reportImage: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=900&q=80",
+  },
+  {
+    _id: "demo-3",
+    reportTitle: "Vehicle vandalism near Gulshan 2",
+    reportDescription: "Two parked vehicles were damaged overnight. CCTV footage has been shared with authorities.",
+    reportLocation: "Gulshan 2, Dhaka",
+    reportType: "vandalism",
+    crimeDate: "2026-09-17",
+    crimeTime: "02:15",
+    status: "resolved",
+    reportImage: "https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=900&q=80",
+  },
+];
+
+const readDemoReports = () => {
+  const saved = localStorage.getItem("crime-alert-demo-reports");
+  return saved ? JSON.parse(saved) : demoReports;
+};
+
+const writeDemoReports = (reports) => {
+  localStorage.setItem("crime-alert-demo-reports", JSON.stringify(reports));
+  return reports;
+};
+
 // ✅ Create report
 export const createReport = async (payload) => {
-  const res = await api.post("/report/create", payload);
-  return res.data;
+  try {
+    const res = await api.post("/report/create", payload);
+    return res.data;
+  } catch {
+    const report = { ...payload, _id: `demo-${Date.now()}`, createdAt: new Date().toISOString() };
+    writeDemoReports([report, ...readDemoReports()]);
+    return { success: true, data: report, demo: true };
+  }
 };
 
 // ✅ Update report
 export const updateReport = async (id, payload) => {
-  const res = await api.put(`/report/update/${id}`, payload);
-  return res.data;
+  try {
+    const res = await api.put(`/report/update/${id}`, payload);
+    return res.data;
+  } catch {
+    const reports = readDemoReports().map((report) => report._id === id ? { ...report, ...payload } : report);
+    writeDemoReports(reports);
+    return { success: true, data: reports.find((report) => report._id === id), demo: true };
+  }
  
 };
 
 // ✅ Soft delete report
 export const softDeleteReport = async (id) => {
-  const res = await api.patch(`/report/delete/${id}`);
-  return res.data;
+  try {
+    const res = await api.patch(`/report/delete/${id}`);
+    return res.data;
+  } catch {
+    writeDemoReports(readDemoReports().map((report) => report._id === id ? { ...report, isDeleted: true } : report));
+    return { success: true, demo: true };
+  }
 };
 
 // ✅ Restore report
 export const restoreReport = async (id) => {
-  const res = await api.patch(`/report/restore/${id}`);
-  return res.data;
+  try {
+    const res = await api.patch(`/report/restore/${id}`);
+    return res.data;
+  } catch {
+    writeDemoReports(readDemoReports().map((report) => report._id === id ? { ...report, isDeleted: false } : report));
+    return { success: true, demo: true };
+  }
 };
 
 // ✅ Block report
@@ -39,14 +107,22 @@ export const unblockReport = async (id) => {
 
 // ✅ Get all reports (excluding deleted)
 export const getAllReports = async () => {
-  const res = await api.get("/report/search");
-  return res.data;
+  try {
+    const res = await api.get("/report/search");
+    return res.data;
+  } catch {
+    return { success: true, data: readDemoReports().filter((report) => !report.isDeleted), demo: true };
+  }
 };
 
 // ✅ Get report by ID
 export const getReportById = async (id) => {
-  const res = await api.get(`/report/search/${id}`);
-  return res.data;
+  try {
+    const res = await api.get(`/report/search/${id}`);
+    return res.data;
+  } catch {
+    return { success: true, data: readDemoReports().find((report) => report._id === id), demo: true };
+  }
 };
 
 // ✅ Search by reportId

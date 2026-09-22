@@ -1,10 +1,12 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from "recharts";
 import { FiChevronDown } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 import { crimeSummary } from "../mockData";
 
 const total = crimeSummary.reduce((sum, c) => sum + c.value, 0);
 
 const CrimeSummaryChart = () => {
+  const navigate = useNavigate();
   return (
     <div className="rounded-2xl border border-white/5 bg-[#12121c] p-5">
       <div className="flex items-center justify-between mb-2">
@@ -55,7 +57,7 @@ const CrimeSummaryChart = () => {
         ))}
       </div>
 
-      <button className="w-full mt-4 py-2.5 text-sm font-medium text-gray-300 border border-white/10 rounded-lg hover:bg-white/5">
+      <button onClick={() => navigate("/profile/analysis")} className="w-full mt-4 py-2.5 text-sm font-medium text-gray-300 border border-white/10 rounded-lg hover:bg-white/5">
         View Full Report
       </button>
     </div>
