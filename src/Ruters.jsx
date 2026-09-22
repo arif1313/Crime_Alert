@@ -30,6 +30,10 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 
 export const router = createBrowserRouter([
   {
+    path: "/",
+    element: <Dashboard />,
+  },
+  {
     path: "/dashboard",
     element: <Dashboard />,
   },
@@ -38,16 +42,13 @@ export const router = createBrowserRouter([
     element: <Main />,
     children: [
       {
-        path: "",
+        path: "home",
         element: <Home2 />,
         children: [
           { path: "", element: <Feed /> },
           { path: "connect", element: <Connection /> },
-         
-         
         ],
       },
-
       { path: "signup/form", element: <Form /> },
       { path: "login", element: <Login /> },
       { path: "map", element: <CrimeHeatmapFeature /> },

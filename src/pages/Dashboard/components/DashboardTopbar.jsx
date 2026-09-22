@@ -1,8 +1,10 @@
 import { FiSearch, FiBell, FiChevronDown } from "react-icons/fi";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Auth/AuthContext";
 
 const DashboardTopbar = () => {
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const name = user?.name || "Guest";
   const location = user?.location || "Dhaka, Bangladesh";
   const avatar =
@@ -10,6 +12,11 @@ const DashboardTopbar = () => {
     `https://ui-avatars.com/api/?name=${encodeURIComponent(
       name
     )}&background=ef4444&color=fff&bold=true`;
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <div className="flex items-center gap-4 px-5 sm:px-8 py-4 border-b border-white/5 bg-[#0b0b12] sticky top-0 z-30">
@@ -41,6 +48,22 @@ const DashboardTopbar = () => {
         </div>
         <FiChevronDown className="text-gray-500 ml-1" />
       </button>
+
+      {user ? (
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-red-600"
+        >
+          Logout
+        </button>
+      ) : (
+        <Link
+          to="/login"
+          className="bg-red-500 text-white px-3 py-2 rounded-lg text-sm font-medium hover:bg-red-600"
+        >
+          Login
+        </Link>
+      )}
     </div>
   );
 };
